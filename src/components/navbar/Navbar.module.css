@@ -56,3 +56,34 @@
   color: var(--accented-green);
   text-decoration: none;
 }
+
+/* Responsive */
+@media screen and (max-width: 768px){
+  .navbarBlock{
+    height: max-content;
+    padding: 16px 24px;
+  }
+
+  .navbarContainer{
+    flex-direction: column;
+  } 
+
+  .navbar__right{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 576px){
+  .navbar__right{
+    flex-direction: column;
+  }
+
+  .navbar__inputContainer{
+    width: 100%;
+  }
+
+  .navigation{
+    width: 100%;
+    justify-content: space-between;
+  }
+}
