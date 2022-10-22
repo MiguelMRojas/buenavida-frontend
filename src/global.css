@@ -1,0 +1,12 @@
+/*Configure global fonts*/
+@font-face {
+  font-family: Inter;
+  src: url('fonts/Inter.woff2') format('woff2'), url('fonts/Inter.woff') format('woff'),
+    url('fonts/Inter.ttf') format('truetype');
+  font-display: swap;
+}
+
+* {
+  font-family: Inter, sans-serif;
+  box-sizing: border-box;
+}
