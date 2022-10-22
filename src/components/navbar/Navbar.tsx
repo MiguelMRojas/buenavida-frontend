@@ -1,6 +1,6 @@
 import Styles from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
-import { FiHeart, FiUser, FiShoppingCart } from 'react-icons/fi';
+import { FiHeart, FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi';
 
 export function Navbar() {
   return (
@@ -13,6 +13,7 @@ export function Navbar() {
         <div className={Styles.navbar__right}>
           <div className={Styles.navbar__inputContainer}>
             <input type='text' placeholder='Search products here' autoFocus></input>
+            <FiSearch color={'#21a764'} id={Styles.searchIcon} />
           </div>
           <ul className={Styles.navigation}>
             <li>

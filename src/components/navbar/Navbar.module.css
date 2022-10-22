@@ -29,6 +29,7 @@
 
 /* Search bar */
 .navbar__inputContainer {
+  position: relative;
   flex-grow: 1;
 }
 
@@ -39,6 +40,14 @@
   outline: none;
   font-size: var(--sm);
   width: 100%;
+}
+
+#searchIcon {
+  position: absolute;
+  /*Center vertically*/
+  top: 50%;
+  transform: translateY(-50%);
+  right: 16px;
 }
 
 /* Navigation options */
