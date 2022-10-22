@@ -1,5 +1,6 @@
 import Styles from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
+import { FiHeart, FiUser, FiShoppingCart } from 'react-icons/fi';
 
 export function Navbar() {
   return (
@@ -15,13 +16,22 @@ export function Navbar() {
           </div>
           <ul className={Styles.navigation}>
             <li>
-              <NavLink to='#'>Favorites</NavLink>
+              <NavLink to='#' className={Styles.navigation__item}>
+                <FiHeart color={'#21a764'} />
+                <span>Favorites</span>
+              </NavLink>
             </li>
             <li>
-              <NavLink to='#'>Account</NavLink>
+              <NavLink to='#' className={Styles.navigation__item}>
+                <FiUser color={'#21a764'} />
+                <span>Account</span>
+              </NavLink>
             </li>
             <li>
-              <NavLink to='#'>Cart</NavLink>
+              <NavLink to='#' className={Styles.navigation__item}>
+                <FiShoppingCart color={'#21a764'} />
+                <span>Cart</span>
+              </NavLink>
             </li>
           </ul>
         </div>
