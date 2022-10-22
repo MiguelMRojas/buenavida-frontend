@@ -41,6 +41,7 @@
     "*.{tsx,jsx,ts,js}": [
       "eslint --cache --fix",
       "prettier --write"
-    ]
+    ],
+    "*.css": "prettier --write"
   }
 }
