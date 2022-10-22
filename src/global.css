@@ -6,7 +6,42 @@
   font-display: swap;
 }
 
+/* Global variables */
+:root {
+  /*Colors*/
+  --opaque-yellow: #f3b24a;
+  --accented-yellow: #efa229;
+
+  --opaque-red: #ef2947;
+  --accented-red: #e80729;
+
+  --opaque-blue: #74a4ec;
+  --accented-blue: #507bbb;
+
+  --opaque-green: #58D17A;
+  --accented-green: #21a746;
+
+  --dark-green: #006414;
+  --inputs-bg: #f7f6fb;
+  --box-shadows: #e1e1e1;
+  --texts-light: #a5a5a5;
+  --texts: #4e4e4e;
+
+  /*Font sizes*/
+  --sm: 1rem;
+  --md: 1.2rem;
+  --lg: 1.6rem;
+}
+
+/* Global styles */
 * {
   font-family: Inter, sans-serif;
   box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
+  width: 1400px;
+  margin-inline: auto;
 }

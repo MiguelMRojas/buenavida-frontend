@@ -11,8 +11,8 @@ import { Starter } from './pages/Starter';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Navbar />
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path='/' element={<Starter />}></Route>
       </Routes>
