@@ -1,10 +1,17 @@
 .product {
+  position: relative;
   width: 320px;
   border-radius: 4px;
   padding: 4px 8px;
   overflow: hidden;
   border: 1px solid var(--box-shadows);
   box-shadow: 4px 0px 16px var(--box-shadows);
+}
+
+.product__heart {
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
 
 .product__image {
@@ -42,6 +49,34 @@
   color: var(--accented-green);
 }
 
+.product__button {
+  /*Center text and icon*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  opacity: 0;
+
+  margin-block: 12px;
+  padding: 0.8em;
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: var(--sm);
+
+  cursor: pointer;
+  background-color: var(--accented-yellow);
+  color: white;
+
+  transition: opacity 0.3s ease;
+}
+
+/*Hover effects*/
 .product:hover .product__name {
   white-space: normal;
+}
+
+.product:hover .product__button {
+  opacity: 1;
 }
