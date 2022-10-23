@@ -3,7 +3,6 @@ import { Iproduct } from '../../interfaces/interfaces.ts';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 
 export function ProductCard(props: Iproduct) {
-  console.log(props);
   return (
     <article className={Styles.product}>
       <FiHeart className={Styles.product__heart} color={'red'} size={'1.4em'} />
