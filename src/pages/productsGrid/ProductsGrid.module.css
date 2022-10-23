@@ -1,0 +1,17 @@
+.gridLayout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  min-height: calc(100vh - 72px);
+}
+
+/* Todo: Filters styles by @SilviaPabo/n */
+.productsFilters {
+  border: 1px solid grey;
+}
+
+/*Cards container*/
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
