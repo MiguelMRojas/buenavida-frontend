@@ -2,13 +2,13 @@ import Styles from './ProductsGrid.module.css';
 import { useState, useEffect } from 'react';
 import { getProducts } from '../../services/products.service.ts';
 import { Iproduct } from '../../interfaces/interfaces.ts';
+import { ProductCard } from '../../components/productCard/ProductCard';
 
 export function ProductsGrid() {
   const [products, setProducts] = useState(new Array<Iproduct>());
-  console.log(products);
 
   {
-    /*Request products on load*/
+    /* Get products on load */
   }
   useEffect(() => {
     const load = async () => {
@@ -24,7 +24,11 @@ export function ProductsGrid() {
     <div className={Styles.gridLayout}>
       {/* Todo: Filters content by @SilviaPabon */}
       <aside className={Styles.productsFilters}></aside>
-      <main className={Styles.products}></main>
+      <main className={Styles.products}>
+        {products.map((product, index) => {
+          return <ProductCard {...product} key={index} />;
+        })}
+      </main>
     </div>
   );
 }
