@@ -1,0 +1,31 @@
+.gridLayout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  min-height: calc(100vh - 72px);
+}
+
+/* Todo: Filters styles by @SilviaPabo/n */
+.productsFilters {
+  border: 1px solid grey;
+  background-color: #efefef;
+}
+
+/*Cards container*/
+.products {
+  padding-block-start: 16px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .gridLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .productsFilters {
+    height: 200px;
+  }
+}
