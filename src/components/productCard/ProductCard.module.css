@@ -5,7 +5,8 @@
   padding: 4px 8px;
   overflow: hidden;
   border: 1px solid var(--box-shadows);
-  box-shadow: 4px 0px 16px var(--box-shadows);
+
+  transition: all 0.3s ease;
 }
 
 .product__heart {
@@ -73,10 +74,22 @@
 }
 
 /*Hover effects*/
+.product:hover {
+  scale: 1.02;
+  box-shadow: 0px 4px 16px var(--box-shadows);
+}
+
 .product:hover .product__name {
   white-space: normal;
 }
 
 .product:hover .product__button {
   opacity: 1;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .product {
+    width: 240px;
+  }
 }
