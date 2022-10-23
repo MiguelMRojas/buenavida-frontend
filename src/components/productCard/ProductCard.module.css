@@ -41,3 +41,7 @@
   font-weight: bold;
   color: var(--accented-green);
 }
+
+.product:hover .product__name {
+  white-space: normal;
+}
