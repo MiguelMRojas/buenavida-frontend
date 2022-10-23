@@ -1,7 +1,7 @@
 import Styles from './ProductsGrid.module.css';
 import { useState, useEffect } from 'react';
-import { getProducts } from '../../services/products.service.ts';
-import { Iproduct } from '../../interfaces/interfaces.ts';
+import { getProducts } from '../../services/products.service';
+import { Iproduct } from '../../interfaces/interfaces';
 import { ProductCard } from '../../components/productCard/ProductCard';
 
 export function ProductsGrid() {

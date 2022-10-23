@@ -1,5 +1,5 @@
 import Styles from './ProductCard.module.css';
-import { Iproduct } from '../../interfaces/interfaces.ts';
+import { Iproduct } from '../../interfaces/interfaces';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 
 export function ProductCard(props: Iproduct) {
