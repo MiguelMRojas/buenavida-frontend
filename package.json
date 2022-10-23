@@ -14,6 +14,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "4.6.0",
     "react-router-dom": "6.4.2"
   },
   "devDependencies": {
@@ -37,9 +38,10 @@
     }
   },
   "lint-staged": {
-    "*.{tsx,jsx,ts,js,css}": [
+    "*.{tsx,jsx,ts,js}": [
       "eslint --cache --fix",
       "prettier --write"
-    ]
+    ],
+    "*.css": "prettier --write"
   }
 }
