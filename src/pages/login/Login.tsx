@@ -1,3 +1,20 @@
+import { DynamicForm } from '../../components/dynamicForm/DynamicForm';
+
 export function Login() {
-  return <h1>Login page</h1>;
+  const loginFields = [
+    {
+      label: 'Email',
+      name: 'email',
+      type: 'email',
+      placeholder: 'foo@bar.com',
+    },
+    {
+      label: 'Password',
+      name: 'password',
+      type: 'password',
+      placeholder: '********',
+    },
+  ];
+
+  return <DynamicForm fields={loginFields} submitLabel='Signup' />;
 }
