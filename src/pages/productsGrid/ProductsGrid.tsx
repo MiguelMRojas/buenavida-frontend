@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { getProducts } from '../../services/products.service';
 import { Iproduct } from '../../interfaces/interfaces';
 import { ProductCard } from '../../components/productCard/ProductCard';
+import { Slider } from '../../components/slider/Slider';
 
 export function ProductsGrid() {
   const [products, setProducts] = useState(new Array<Iproduct>());
@@ -22,8 +23,9 @@ export function ProductsGrid() {
 
   return (
     <div className={Styles.gridLayout}>
-      {/* Todo: Filters content by @SilviaPabon */}
-      <aside className={Styles.productsFilters}></aside>
+      <aside className={Styles.productsFilters}>
+        <Slider />
+      </aside>
       <main className={Styles.products}>
         {products.map((product, index) => {
           return <ProductCard {...product} key={index} />;

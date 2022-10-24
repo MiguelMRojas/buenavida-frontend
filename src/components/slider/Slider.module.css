@@ -1,0 +1,40 @@
+.filterContainer{
+    margin: auto;
+    width: 90%;
+    padding: 10px;
+    justify-content: center;
+}
+
+.slider {
+    width: 80%;
+    accent-color: var(--accented-green);
+}
+
+.inputPrices {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputPrices input {
+  margin-block: 12px;
+  padding: 0.8em;
+  width: 60%;
+}
+
+.filterButton {
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 80%;
+
+  margin-block: 12px;
+  padding: 0.8em;
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: var(--sm);
+
+  cursor: pointer;
+  background-color: var(--accented-green);
+  color: white;
+}
