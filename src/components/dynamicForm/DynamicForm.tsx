@@ -9,6 +9,7 @@ interface Field {
 }
 
 interface Props {
+  title: string;
   fields: Array<Field>;
   submitLabel: string;
 }
@@ -36,6 +37,7 @@ export function DynamicForm(props: Props) {
 
   return (
     <form className={Styles.form}>
+      <h3 className={Styles.form__title}>{props.title}</h3>
       {generateFields}
       <input className={Styles.form__submit} type='submit' value={props.submitLabel}></input>
     </form>

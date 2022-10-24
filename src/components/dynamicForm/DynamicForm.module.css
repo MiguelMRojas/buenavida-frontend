@@ -6,6 +6,14 @@
   box-shadow: 4px 0px 16px var(--box-shadows);
 }
 
+.form__title {
+  text-transform: uppercase;
+  font-weight: bolder;
+  text-align: center;
+  margin-block: 16px;
+  font-size: var(--lg);
+}
+
 .form__group {
   display: block;
   margin-block: 8px 16px;

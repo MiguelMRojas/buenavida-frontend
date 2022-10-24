@@ -16,5 +16,5 @@ export function Login() {
     },
   ];
 
-  return <DynamicForm fields={loginFields} submitLabel='Signup' />;
+  return <DynamicForm title='Login' fields={loginFields} submitLabel='Signup' />;
 }
