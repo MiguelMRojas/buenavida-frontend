@@ -7,8 +7,9 @@ import './global.css';
 
 // Components
 import { Navbar } from './components/navbar/Navbar';
-//import { Starter } from './pages/Starter';
 import { ProductsGrid } from './pages/productsGrid/ProductsGrid';
+import { Login } from './pages/login/Login';
+import { Signup } from './pages/signup/Signup';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -16,6 +17,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Navbar />
       <Routes>
         <Route path='/' element={<ProductsGrid />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/signup' element={<Signup />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
