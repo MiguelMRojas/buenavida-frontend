@@ -1,3 +1,5 @@
+import Styles from './DynamicForm.module.css';
+
 // Props interfaces
 interface Field {
   label: string;
@@ -15,9 +17,12 @@ export function DynamicForm(props: Props) {
   // Generate fields
   const generateFields = props.fields.map((field, index) => {
     return (
-      <div key={index}>
-        <label htmlFor={field.name}>{field.label}</label>
+      <div className={Styles.form__group} key={index}>
+        <label className={Styles.form__label} htmlFor={field.name}>
+          {field.label}
+        </label>
         <input
+          className={Styles.form__input}
           key={field.name}
           id={field.name}
           name={field.name}
@@ -30,9 +35,9 @@ export function DynamicForm(props: Props) {
   });
 
   return (
-    <form>
+    <form className={Styles.form}>
       {generateFields}
-      <input type='submit' value={props.submitLabel}></input>
+      <input className={Styles.form__submit} type='submit' value={props.submitLabel}></input>
     </form>
   );
 }
