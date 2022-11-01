@@ -1,15 +1,105 @@
-
-.modal_product{
-    position: fixed;
-    top: calc(50% - 450px);
-    left: calc(50% - 450px);
-    width: 900px;
-    height: 900px;
-    background-color: antiquewhite;
+.modal_product {
+  display: grid;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  box-shadow: 0px 4px 20px var(--box-shadows);
+  padding: 32px;
+  border-radius: 12px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 10;
+  font-family: Geneva, Verdana, sans-serif;
+}
+.corazon {
+  cursor: pointer;
+  position: absolute;
+  top: -20px;
+  right: 54px;
+  width: 25px;
+  height: 100px;
+  color: red;
 }
 
-.modal_btn_cerrar{
-    width: 50px;
-    height: 50px;
+.modal_btn_cerrar {
+  cursor: pointer;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 25px;
+  height: 25px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--accented-green);
 }
 
+@media screen and (max-width: 768px) {
+  .imagen {
+    width: 40%;
+    margin: 0px auto;
+  }
+}
+
+.imagen {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+}
+
+.titulo {
+  font-size: var(--lg);
+  color: #000000;
+  font-family: Geneva, Verdana, sans-serif;
+  margin-block: 8px;
+}
+
+.unidades {
+  font-size: var(--sm);
+  font-weight: bolder;
+  color: var(--texts-light);
+  margin-block: 24px;
+  margin-block: 8px;
+  font-family: Geneva, Verdana, sans-serif;
+}
+
+.price {
+  font-size: var(--lg);
+  font-weight: bolder;
+  color: var(--accented-green);
+  margin-block: 8px;
+  font-family: Geneva, Verdana, sans-serif;
+}
+
+.description {
+  font-family: Geneva, Verdana, sans-serif;
+  color: var(--texts);
+  line-height: 1.4;
+  margin-block: 32px;
+  font-weight: 200px;
+}
+
+.boton {
+  font-family: Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0.7em 1em;
+  font-size: 1rem;
+  font-weight: bold;
+  min-width: max-content;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  font-size: var(--sm);
+  background-color: var(--opaque-yellow);
+  color: white;
+}
+
+.boton:hover {
+  background-color: var(--accented-green);
+  color: #000000;
+}

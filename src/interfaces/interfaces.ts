@@ -19,4 +19,3 @@ export interface ModalProduct {
   price: number;
   description: string;
 }
-

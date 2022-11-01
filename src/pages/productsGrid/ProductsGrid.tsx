@@ -9,21 +9,30 @@ export function ProductsGrid() {
   const [products, setProducts] = useState(new Array<Iproduct>());
 
   // Estado que guarda los datos del producto
-  const [modalData, setModalData] = useState({});
+  const [modalData, setModalData] = useState({
+    id: '',
+    name: '',
+    image: '',
+    units: '',
+    annotations: '',
+    discount: 0,
+    price: 0,
+    description: '',
+  });
 
   // Estado que indica si el modal esta abierto o no
   const [viewModal, setViewModal] = useState(false);
 
   // Funcion para abrir el modal
-  const handleAbrir = (data:Iproduct)=>{
+  const handleAbrir = (data: Iproduct) => {
     // Se cambian los datos del modal con los datos del producto
-    setModalData({...data});
+    setModalData({ ...data });
     // Se cambia la vista del modal a true
     setViewModal(true);
   };
 
   // Funcion para cerrar el modal
-  const handleCerrar = ()=>{
+  const handleCerrar = () => {
     setViewModal(false);
   };
 
@@ -46,10 +55,10 @@ export function ProductsGrid() {
       <aside className={Styles.productsFilters}></aside>
       <main className={Styles.products}>
         {products.map((product, index) => {
-          return <ProductCard DialogCallback={handleAbrir} producto={product} key={index} />;
+          return <ProductCard CallBack={handleAbrir} product={product} key={index} />;
         })}
       </main>
-      {(viewModal)?<ModalProduct CerrarCallback={handleCerrar} producto={modalData}/>:''}
+      {viewModal ? <ModalProduct CerrarCallBack={handleCerrar} product={modalData} /> : ''}
     </div>
   );
 }
