@@ -3,7 +3,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 500px;
+  width: clamp(240px, 60vw, 500px);
   transform: translate(-50%, -50%);
   background-color: white;
   box-shadow: 0px 4px 20px var(--box-shadows);
