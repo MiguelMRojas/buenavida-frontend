@@ -14,7 +14,7 @@ export function ModalProduct(props: props) {
     <div className={Styles.modal_product}>
       <div className={Styles.modal_productmodal}>
         <button
-          onClick={() => props.CerrarCallBack()}
+          onClick={() => props.CerrarCallBack(props.product)}
           type='button'
           className={Styles.modal_btn_cerrar}
         >
