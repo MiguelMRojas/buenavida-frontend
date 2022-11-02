@@ -1,31 +1,43 @@
 .filterContainer{
-    margin: auto;
-    width: 90%;
-    padding: 10px;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  padding: 10px 32px;
+  justify-content: center;
 }
 
 .slider {
-    width: 80%;
-    accent-color: var(--accented-green);
+  width: 100%;
+}
+
+.rangeContainer {
+  width: 100%;
 }
 
 .inputPrices {
   display: flex;
+  gap: 16px;
   justify-content: space-between;
 }
 
 .inputPrices input {
   margin-block: 12px;
   padding: 0.8em;
-  width: 60%;
+  width: 100%;
+}
+
+.inputPrices div {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
 }
 
 .filterButton {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 80%;
+  width: 100%;
 
   margin-block: 12px;
   padding: 0.8em;
