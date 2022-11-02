@@ -1,16 +1,18 @@
 import Styles from './ProductsGrid.module.css';
 import { useState, useEffect } from 'react';
-import { getProducts } from '../../services/products.service';
+import { getProducts, getProductImage } from '../../services/products.service';
 import { Iproduct } from '../../interfaces/interfaces';
 import { ProductCard } from '../../components/productCard/ProductCard';
 import { ModalProduct } from '../../components/modalproducts/ModalProducts';
 
 export function ProductsGrid() {
+  const [inventory, setInventory] = useState(new Array<Iproduct>());
   const [products, setProducts] = useState(new Array<Iproduct>());
 
   // Estado que guarda los datos del producto
   const [modalData, setModalData] = useState({
     id: '',
+    serial: 0,
     name: '',
     image: '',
     units: '',
@@ -43,11 +45,32 @@ export function ProductsGrid() {
     const load = async () => {
       const response = await getProducts();
       const products: Array<Iproduct> = response.products;
+      setInventory(products);
       setProducts(products);
     };
 
     load();
   }, []);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      inventory.forEach(async (item) => {
+        const response = await getProductImage(item.serial);
+
+        const updatedProducts = products.map((product) => {
+          if (product.id === item.id) {
+            product.image = response.image;
+          }
+
+          return product;
+        });
+
+        setProducts(updatedProducts);
+      });
+    };
+
+    loadImages();
+  }, [inventory]);
 
   return (
     <div className={Styles.gridLayout}>

@@ -1,5 +1,6 @@
 export interface Iproduct {
   id: string;
+  serial: number;
   name: string;
   image: string;
   units: string;
