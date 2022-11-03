@@ -40,22 +40,17 @@
   margin-block: 16px;
 }
 
-.paginacion_barra {
-  width: 100%;
-  position: relative;
+
+
+
+.pagination{
+  background-color: aqua
 }
 
-.paginacion {
-  height: 40px;
-  cursor: pointer;
-  margin-inline: 4px;
-  padding: 8px 12px;
-  font-size: var(--sm);
-  background-color: white;
-  color: var(--texts);
-  border: 1px solid var(--box-shadows);
+.pagination1{
+  background-color: gold
 }
 
-.paginacion--active {
-  color: var(--accented-green);
+.pagination2{
+  background-color: aqua
 }
