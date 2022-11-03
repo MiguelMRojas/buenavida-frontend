@@ -1,8 +1,13 @@
 import Styles from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi';
 
 export function Navbar() {
+  const user = useContext(SessionContext);
+  console.log(user);
+
   return (
     <nav className={Styles.navbarBlock}>
       <div className={`${Styles.navbarContainer} container`}>
