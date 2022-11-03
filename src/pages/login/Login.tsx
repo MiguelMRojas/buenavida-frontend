@@ -1,4 +1,9 @@
 import { DynamicForm } from '../../components/dynamicForm/DynamicForm';
+import { ILoginPayload } from '../../interfaces/interfaces.services';
+
+const HandleLoginSubmit = (payload: ILoginPayload) => {
+  console.table(payload);
+};
 
 export function Login() {
   const loginFields = [
@@ -26,5 +31,13 @@ export function Login() {
     },
   ];
 
-  return <DynamicForm title='Login' fields={loginFields} rules={loginRules} submitLabel='Login' />;
+  return (
+    <DynamicForm
+      title='Login'
+      fields={loginFields}
+      rules={loginRules}
+      callback={HandleLoginSubmit}
+      submitLabel='Login'
+    />
+  );
 }

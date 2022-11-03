@@ -20,6 +20,9 @@ interface Props {
   title: string;
   fields: Array<Field>;
   submitLabel: string;
+  // Callback to handle input submit
+  // eslint-disable-next-line no-unused-vars
+  callback: (payload: Any) => promise<void>;
   // Optional field to validate with regular expressions
   rules?: Array<Rule>;
 }
@@ -40,7 +43,6 @@ export function DynamicForm(props: Props) {
       const rule: Rule = props.rules.filter((rule) => rule.name === key)[0];
       if (rule) {
         const correct = rule.regexp.test(value);
-        console.log(correct);
         if (!correct) {
           const err: HTMLElement = document.getElementById(`error-${key}`);
           err.textContent = rule.message;
@@ -81,7 +83,7 @@ export function DynamicForm(props: Props) {
       className={Styles.form}
       onSubmit={(e) => {
         e.preventDefault();
-        // callback();
+        props.callback(values);
       }}
     >
       <h3 className={Styles.form__title}>{props.title}</h3>
