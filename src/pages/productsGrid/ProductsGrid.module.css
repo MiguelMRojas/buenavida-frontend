@@ -29,3 +29,33 @@
     height: 200px;
   }
 }
+
+.containerpaginas {
+  max-width: 1400px;
+  margin: 0px auto;
+}
+
+.controladorpaginas {
+  float: right;
+  margin-block: 16px;
+}
+
+.paginacion_barra {
+  width: 100%;
+  position: relative;
+}
+
+.paginacion {
+  height: 40px;
+  cursor: pointer;
+  margin-inline: 4px;
+  padding: 8px 12px;
+  font-size: var(--sm);
+  background-color: white;
+  color: var(--texts);
+  border: 1px solid var(--box-shadows);
+}
+
+.paginacion--active {
+  color: var(--accented-green);
+}

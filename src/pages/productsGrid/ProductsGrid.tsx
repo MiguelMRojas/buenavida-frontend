@@ -1,6 +1,7 @@
 import Styles from './ProductsGrid.module.css';
 import { useState, useEffect } from 'react';
-import { getProducts, getProductImage } from '../../services/products.service';
+import { useSearchParams } from 'react-router-dom';
+import { getProductImage, getPageproducts } from '../../services/products.service';
 import { Iproduct } from '../../interfaces/interfaces';
 import { ProductCard } from '../../components/productCard/ProductCard';
 import { ModalProduct } from '../../components/modalproducts/ModalProducts';
@@ -38,15 +39,35 @@ export function ProductsGrid() {
     setViewModal(false);
   };
 
+  //PAGINATION PRODUCTS
+
+  //Hook para obtener el parametro opcional "page"
+  const [params, setParams] = useSearchParams();
+  const [page404, setPage404] = useState(false);
+
+  //Funcion para cambiar la pagina y refrescar la pagina para que vaya al inicio
+  const changePage = (e: Event)=>{
+    setParams({page: (e.target as HTMLButtonElement).innerHTML});
+    window.location.reload();
+  };
+
   {
     /* Get products on load */
   }
   useEffect(() => {
     const load = async () => {
-      const response = await getProducts();
-      const products: Array<Iproduct> = response.products;
-      setInventory(products);
-      setProducts(products);
+      try{
+        // Variable que me obtiene la pagina del parametro si no existe pone 1
+        const page = params.get('page') || '1';
+        // Trae los productos de dicha pagina
+        const response = await getPageproducts(parseInt(page));
+        const products: Array<Iproduct> = response.products;
+        setPage404(false);
+        setInventory(products);
+        setProducts(products);
+      }catch(error){
+        setPage404(true);
+      }
     };
 
     load();
@@ -73,13 +94,19 @@ export function ProductsGrid() {
   }, [inventory]);
 
   return (
+    // eslint-disable-next-line react/no-unknown-property
     <div className={Styles.gridLayout}>
       {/* Todo: Filters content by @SilviaPabon */}
       <aside className={Styles.productsFilters}></aside>
       <main className={Styles.products}>
-        {products.map((product, index) => {
+        {page404?<p>No hay productos en esta pagina</p>:products.map((product, index) => {
           return <ProductCard CallBack={handleAbrir} product={product} key={index} />;
         })}
+        <div className={Styles.paginacion_barra}>
+          <button onClick={changePage} className={Styles.paginacion}>1</button>
+          <button onClick={changePage} className={Styles.paginacion}>2</button>
+          <button onClick={changePage} className={Styles.paginacion}>3</button>
+        </div>
       </main>
       {viewModal ? <ModalProduct CerrarCallBack={handleCerrar} product={modalData} /> : ''}
     </div>

@@ -13,10 +13,12 @@ export function ModalProduct(props: props) {
   return (
     <div className={Styles.modal_product}>
       <div className={Styles.modal_productmodal}>
-
-
-        <FiXCircle onClick={() => props.CerrarCallBack(props.product)} className={Styles.modal_btn_cerrar} color={'#21a746'} size={'1.4em'} />
-
+        <FiXCircle
+          onClick={() => props.CerrarCallBack(props.product)}
+          className={Styles.modal_btn_cerrar}
+          color={'#21a746'}
+          size={'1.4em'}
+        />
 
         <FiHeart className={Styles.corazon} color={'red'} size={'1.4em'} />
         <img className={Styles.imagen} src={props.product.image} />
