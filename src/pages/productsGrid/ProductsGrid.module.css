@@ -31,15 +31,6 @@
   }
 }
 
-.containerpaginas {
-  max-width: 1400px;
-  margin: 0px auto;
-}
-
-.controladorpaginas {
-  float: right;
-  margin-block: 16px;
-}
 
 .pagination {
   position: fixed;
