@@ -13,8 +13,18 @@ export function Login() {
       name: 'password',
       type: 'password',
       placeholder: '********',
+      minlength: 8,
     },
   ];
 
-  return <DynamicForm title='Login' fields={loginFields} submitLabel='Signup' />;
+  const loginRules = [
+    {
+      name: 'password',
+      regexp: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$!%*#?&/%])[A-Za-z\d$!%*#?&/%]{8,}$/,
+      message:
+        'Password must have minimal length of 8 characters, contains at least one number, one letter and one special character',
+    },
+  ];
+
+  return <DynamicForm title='Login' fields={loginFields} rules={loginRules} submitLabel='Login' />;
 }
