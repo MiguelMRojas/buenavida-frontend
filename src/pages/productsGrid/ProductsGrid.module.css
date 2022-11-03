@@ -39,7 +39,7 @@
   margin-block: 16px;
 }
 
-.pagination1 {
+.pagination__item{
   cursor: pointer;
     margin-inline: 2px;
     padding: 8px 12px;
@@ -51,7 +51,7 @@
     display:inline-block;
 }
 
-.active{
+.pagination__active{
   color: var(--accented-green);
 }
 

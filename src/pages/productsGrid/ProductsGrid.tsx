@@ -91,11 +91,10 @@ export function ProductsGrid() {
           breakLabel={'...'}
           onPageChange={handlePageClick}
           containerClassName={Styles.pagination}
-          pageClassName={Styles.pagination1}
-          previousClassName={Styles.pagination1}
-          nextClassName={Styles.pagination1}
-          pageLinkClassName={Styles.pagination2}
-          activeClassName={Styles.active}
+          pageClassName={Styles.pagination__item}
+          previousClassName={Styles.pagination__item}
+          nextClassName={Styles.pagination__item}
+          activeClassName={Styles.pagination__active}
         />
       </div>
       {viewModal ? <ModalProduct CerrarCallBack={handleCerrar} product={modalData} /> : ''}
