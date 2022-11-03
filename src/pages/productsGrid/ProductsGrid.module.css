@@ -13,6 +13,7 @@
 /*Cards container*/
 .products {
   padding-block-start: 16px;
+  padding-block-end: 70px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -40,17 +41,26 @@
   margin-block: 16px;
 }
 
-
-
-
-.pagination{
-  background-color: aqua
+.pagination {
+  position: fixed;
+  right: 32px;
+  bottom:0px;
+  margin-block: 16px;
 }
 
-.pagination1{
-  background-color: gold
+.pagination1 {
+  cursor: pointer;
+    margin-inline: 2px;
+    padding: 8px 12px;
+    font-size: var(--sm);
+    background-color: white;
+    color: var(--texts);
+    border: 1px solid var(--box-shadows);
+    list-style-type: none;
+    display:inline-block;
 }
 
-.pagination2{
-  background-color: aqua
+.active{
+  color: var(--accented-green);
 }
+

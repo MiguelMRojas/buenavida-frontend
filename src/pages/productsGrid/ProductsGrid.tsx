@@ -1,16 +1,14 @@
 import Styles from './ProductsGrid.module.css';
 import { useState, useEffect } from 'react';
-import { getProducts, getProductImage  } from '../../services/products.service';
+import { getProducts, getProductImage } from '../../services/products.service';
 import { Iproduct } from '../../interfaces/interfaces';
 import { ProductCard } from '../../components/productCard/ProductCard';
 import { ModalProduct } from '../../components/modalproducts/ModalProducts';
 import ReactPaginate from 'react-paginate';
 
-
 export function ProductsGrid() {
   const [inventory, setInventory] = useState(new Array<Iproduct>());
   const [products, setProducts] = useState(new Array<Iproduct>());
-  const [productsPages, setProductsPages] = useState([]);
 
   // Estado que guarda los datos del producto
   const [modalData, setModalData] = useState({
@@ -43,62 +41,37 @@ export function ProductsGrid() {
 
   //PAGINATION
 
-  const handlePageClick = async (data: { selected: any; }) => {
-    setProducts(productsPages[data.selected]);
-    setInventory(productsPages[data.selected]);
+  const handlePageClick = async (data: { selected: number }) => {
+    const start: number = data.selected * 12;
+    const end: number = start + 12;
+    const page: Array<Iproduct> = inventory.slice(start, end);
+    setProducts(page);
   };
-
 
   {
     /* Get products on load */
   }
+
   useEffect(() => {
     const load = async () => {
       const response = await getProducts();
-      const products: Array<Iproduct> = response.products;
+      const items: Array<Iproduct> = response.products;
+      const products: Array<Iproduct> = [];
 
-      const pages = ()=>{
-        const allPages = [];
-        for(let i=0,c=0;i<Math.ceil(products.length/12);i++){
-          const pp = [];
-          for(let j=0;j<12;j++){
-            pp.push(products[c]);
-            c++;
-            if(c==products.length){
-              allPages.push(pp);
-              return allPages;
-            }
-          }
-          allPages.push(pp);
-        }
-      };
-      const allPages = pages();
-      setProductsPages(allPages);
-      setInventory(allPages[0]);
-      setProducts(allPages[0]);
+      for (let i = 0; i < items.length; i++) {
+        const imageReply = await getProductImage(items[i].serial);
+        console.log(imageReply);
+        products.push({ ...items[i], image: imageReply.image });
+      }
+
+      setInventory(products);
     };
 
     load();
   }, []);
 
   useEffect(() => {
-    const loadImages = async () => {
-      inventory.forEach(async (item) => {
-        const response = await getProductImage(item.serial);
-
-        const updatedProducts = products.map((product) => {
-          if (product.id === item.id) {
-            product.image = response.image;
-          }
-
-          return product;
-        });
-
-        setProducts(updatedProducts);
-      });
-    };
-
-    loadImages();
+    setProducts(inventory.slice(0, 12));
   }, [inventory]);
 
   return (
@@ -109,19 +82,22 @@ export function ProductsGrid() {
         {products.map((product, index) => {
           return <ProductCard CallBack={handleAbrir} product={product} key={index} />;
         })}
-        <div>  
-          <ReactPaginate
-            previousLabel={'<'}
-            nextLabel={'>'} 
-            pageCount  = {productsPages.length} 
-            breakLabel = {'...'}
-            onPageChange={handlePageClick}
-            containerClassName={Styles.pagination}
-            pageClassName={Styles.pagination1}
-            pageLinkClassName={Styles.pagination2}
-          />
-        </div>
       </main>
+      <div>
+        <ReactPaginate
+          previousLabel={'<'}
+          nextLabel={'>'}
+          pageCount={Math.ceil(inventory.length / 12)}
+          breakLabel={'...'}
+          onPageChange={handlePageClick}
+          containerClassName={Styles.pagination}
+          pageClassName={Styles.pagination1}
+          previousClassName={Styles.pagination1}
+          nextClassName={Styles.pagination1}
+          pageLinkClassName={Styles.pagination2}
+          activeClassName={Styles.active}
+        />
+      </div>
       {viewModal ? <ModalProduct CerrarCallBack={handleCerrar} product={modalData} /> : ''}
     </div>
   );
