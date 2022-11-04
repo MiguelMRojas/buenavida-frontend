@@ -15,7 +15,7 @@ interface Rule {
   name: string;
   regexp: RegExp;
   message: string;
-  done: bool;
+  done: boolean;
 }
 
 interface Props {
@@ -74,26 +74,28 @@ export function DynamicForm(props: Props) {
   const handleSubmit = () => {
     let allFieldsOk = true;
 
-    props.rules.forEach((rule) => {
-      if (!rule.done) {
-        allFieldsOk = false;
-        return; // Breaks the foreach
-      }
-    });
-
-    if (!allFieldsOk) {
-      // Show an information alert
-      toast.warn('Please, fill all the fields correctly before sending again.', {
-        position: 'top-right',
-        autoClose: 2500,
-        pauseOnHover: true,
-        theme: 'light',
+    if (props.rules) {
+      props.rules.forEach((rule) => {
+        if (!rule.done) {
+          allFieldsOk = false;
+          return; // Breaks the foreach
+        }
       });
 
-      return;
+      if (!allFieldsOk) {
+        // Show an information alert
+        toast.warn('Please, fill all the fields correctly before sending again.', {
+          position: 'top-right',
+          autoClose: 2500,
+          pauseOnHover: true,
+          theme: 'light',
+        });
+      } else {
+        props.callback(values);
+      }
+    } else {
+      props.callback(values);
     }
-
-    props.callback(values);
   };
 
   // Generate fields

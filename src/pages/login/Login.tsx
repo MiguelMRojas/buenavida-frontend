@@ -77,6 +77,7 @@ export function Login() {
   const loginRules = [
     {
       name: 'password',
+      done: false,
       regexp: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$!%*#?&/%])[A-Za-z\d$!%*#?&/%]{8,}$/,
       message:
         'Password must have minimal length of 8 characters, contains at least one number, one letter and one special character',
