@@ -1,7 +1,8 @@
 import { AxiosResponse } from 'axios';
-import { createContext, useState, ReactNode } from 'react';
+import { createContext, useState, useEffect, ReactNode } from 'react';
 import { IUser } from '../interfaces/interfaces';
 import { UserTemplate } from '../templates/user';
+import { WhoamiService } from '../services/session.services';
 
 interface Props {
   children: ReactNode;
@@ -30,6 +31,22 @@ export const SessionContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState(UserTemplate);
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Try to get the user information on reload
+  // or new start
+  useEffect(() => {
+    const recover = async () => {
+      const reply = await WhoamiService();
+
+      if (reply.status === 200) {
+        setUser(reply.data.user);
+        setIsSessionLoading(false);
+        setIsLoggedIn(true);
+      }
+    };
+
+    recover();
+  }, []);
 
   // Actyual value for login function
   const login = async (response: AxiosResponse) => {
