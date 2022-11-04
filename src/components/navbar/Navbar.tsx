@@ -5,7 +5,7 @@ import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi';
 
 export function Navbar() {
-  const user = useContext(SessionContext);
+  const { user } = useContext(SessionContext);
   console.log(user);
 
   return (

@@ -1,26 +1,36 @@
-import { createContext, ReactNode } from 'react';
+import { AxiosResponse } from 'axios';
+import { createContext, useState, ReactNode } from 'react';
 import { IUser } from '../interfaces/interfaces';
+import { ILoginPayload } from '../interfaces/interfaces.services';
+import { UserTemplate } from '../templates/user';
 
 interface Props {
   children: ReactNode;
 }
 
-// Global context
-export const SessionContext = createContext<IUser>({
-  id: 1,
-  email: 'foo@bar.com',
-  firstname: 'foo',
-  lastname: 'bar',
+interface ISessionCTX {
+  user: IUser;
+  // eslint-disable-next-line no-unused-vars
+  login: (payload: ILoginPayload) => Promise<void>;
+}
+
+// Here we define the default values for each
+// field of the ISessionCTX interface
+export const SessionContext = createContext<ISessionCTX>({
+  user: UserTemplate,
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  login: async function (payload: ILoginPayload) {},
 });
 
 // Session provider
 export const SessionContextProvider = ({ children }: Props) => {
-  const user: IUser = {
-    id: 1,
-    email: 'foo@bar.com',
-    firstname: 'foo',
-    lastname: 'bar',
+  const [user, setUser] = useState(UserTemplate);
+
+  // Actyual value for login function
+  const login = async (response: AxiosResponse) => {
+    console.log(response);
+    setUser(response.data.user);
   };
 
-  return <SessionContext.Provider value={user}>{children}</SessionContext.Provider>;
+  return <SessionContext.Provider value={{ user, login }}>{children}</SessionContext.Provider>;
 };

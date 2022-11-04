@@ -1,11 +1,19 @@
+import { useContext } from 'react';
+import { SessionContext } from '../../context/SessionContext';
 import { DynamicForm } from '../../components/dynamicForm/DynamicForm';
 import { ILoginPayload } from '../../interfaces/interfaces.services';
-
-const HandleLoginSubmit = (payload: ILoginPayload) => {
-  console.table(payload);
-};
+import { LoginService } from '../../services/session.services.ts';
 
 export function Login() {
+  // Get login function from provider
+  const { login } = useContext(SessionContext);
+
+  // Prepare callback
+  const HandleLoginSubmit = async (payload: ILoginPayload) => {
+    const response = await LoginService(payload);
+    login(response);
+  };
+
   const loginFields = [
     {
       label: 'Email',
@@ -22,6 +30,7 @@ export function Login() {
     },
   ];
 
+  // Regular expressions to validate fields
   const loginRules = [
     {
       name: 'password',

@@ -21,7 +21,7 @@ interface Props {
   fields: Array<Field>;
   submitLabel: string;
   // Callback to handle input submit
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line
   callback: (payload: Any) => promise<void>;
   // Optional field to validate with regular expressions
   rules?: Array<Rule>;
