@@ -37,6 +37,7 @@ export const SessionContextProvider = ({ children }: Props) => {
   useEffect(() => {
     const recover = async () => {
       const reply = await WhoamiService();
+      if (!reply) return;
 
       if (reply.status === 200) {
         setUser(reply.data.user);
