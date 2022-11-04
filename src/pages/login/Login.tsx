@@ -1,17 +1,41 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
 import { DynamicForm } from '../../components/dynamicForm/DynamicForm';
 import { ILoginPayload } from '../../interfaces/interfaces.services';
 import { LoginService } from '../../services/session.services.ts';
 
+import { toast } from 'react-toastify';
+
 export function Login() {
   // Get login function from provider
   const { login } = useContext(SessionContext);
+  const navigate = useNavigate();
 
   // Prepare callback
   const HandleLoginSubmit = async (payload: ILoginPayload) => {
     const response = await LoginService(payload);
-    login(response);
+    const data = response.data;
+
+    if (response.status !== 200) {
+      toast.error(data.message, {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'colored',
+      });
+    } else {
+      login(response);
+
+      toast.success('Login successfully completed', {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'colored',
+      });
+
+      navigate('/');
+    }
   };
 
   const loginFields = [

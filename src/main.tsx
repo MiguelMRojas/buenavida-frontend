@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Global styles
 import './global.css';
 
@@ -17,6 +20,7 @@ import { Signup } from './pages/signup/Signup';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ToastContainer />
       <SessionContextProvider>
         <Navbar />
         <Routes>

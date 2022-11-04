@@ -28,7 +28,6 @@ export const SessionContextProvider = ({ children }: Props) => {
 
   // Actyual value for login function
   const login = async (response: AxiosResponse) => {
-    console.log(response);
     setUser(response.data.user);
   };
 
