@@ -9,12 +9,20 @@ import { toast } from 'react-toastify';
 
 export function Login() {
   // Get login function from provider
-  const { login, isLoggedIn } = useContext(SessionContext);
+  const { login, isLoggedIn, isSessionLoading } = useContext(SessionContext);
   const navigate = useNavigate();
 
   // Redirect to heme if is logged in
   useEffect(() => {
-    if (isLoggedIn) {
+    if (!isSessionLoading && isLoggedIn) {
+      // Show an information alert
+      toast.warn('You already have an active session', {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'light',
+      });
+
       // Redirect to heme because there is an active session
       navigate('/');
     }
@@ -22,10 +30,12 @@ export function Login() {
 
   // Prepare callback
   const HandleLoginSubmit = async (payload: ILoginPayload) => {
+    // Get response from backk-end
     const response = await LoginService(payload);
     const data = response?.data;
 
     if (response?.status !== 200) {
+      // Shows an error alert
       toast.error(data.message, {
         position: 'top-right',
         autoClose: 2500,
@@ -33,6 +43,7 @@ export function Login() {
         theme: 'light',
       });
     } else {
+      // Update the session on the provider component
       login(response);
 
       toast.success('Login successfully completed', {
