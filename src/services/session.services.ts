@@ -8,6 +8,7 @@ export const LoginService = async (payload: ILoginPayload) => {
 
     return response;
   } catch (err) {
-    return err.response;
+    if (axios.isAxiosError(err)) return err.response;
+    else return new axios.AxiosError().response;
   }
 };

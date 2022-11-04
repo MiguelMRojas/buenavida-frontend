@@ -1,28 +1,36 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
 import { DynamicForm } from '../../components/dynamicForm/DynamicForm';
 import { ILoginPayload } from '../../interfaces/interfaces.services';
-import { LoginService } from '../../services/session.services.ts';
+import { LoginService } from '../../services/session.services';
 
 import { toast } from 'react-toastify';
 
 export function Login() {
   // Get login function from provider
-  const { login } = useContext(SessionContext);
+  const { login, isLoggedIn } = useContext(SessionContext);
   const navigate = useNavigate();
+
+  // Redirect to heme if is logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      // Redirect to heme because there is an active session
+      navigate('/');
+    }
+  }, [isLoggedIn]);
 
   // Prepare callback
   const HandleLoginSubmit = async (payload: ILoginPayload) => {
     const response = await LoginService(payload);
-    const data = response.data;
+    const data = response?.data;
 
-    if (response.status !== 200) {
+    if (response?.status !== 200) {
       toast.error(data.message, {
         position: 'top-right',
         autoClose: 2500,
         pauseOnHover: true,
-        theme: 'colored',
+        theme: 'light',
       });
     } else {
       login(response);
@@ -31,7 +39,7 @@ export function Login() {
         position: 'top-right',
         autoClose: 2500,
         pauseOnHover: true,
-        theme: 'colored',
+        theme: 'light',
       });
 
       navigate('/');

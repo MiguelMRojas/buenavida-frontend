@@ -22,7 +22,7 @@ interface Props {
   submitLabel: string;
   // Callback to handle input submit
   // eslint-disable-next-line
-  callback: (payload: Any) => promise<void>;
+  callback: (payload: any) => Promise<void>;
   // Optional field to validate with regular expressions
   rules?: Array<Rule>;
 }
@@ -44,12 +44,14 @@ export function DynamicForm(props: Props) {
       if (rule) {
         const correct = rule.regexp.test(value);
         if (!correct) {
-          const err: HTMLElement = document.getElementById(`error-${key}`);
-          err.textContent = rule.message;
-          err.classList.add(`${Styles.form__error__active}`);
+          const err: HTMLElement | null = document.getElementById(`error-${key}`);
+          if (err != null) {
+            err.textContent = rule.message;
+            err.classList.add(`${Styles.form__error__active}`);
+          }
         } else {
-          const err: HTMLElement = document.getElementById(`error-${key}`);
-          err.classList.remove(`${Styles.form__error__active}`);
+          const err: HTMLElement | null = document.getElementById(`error-${key}`);
+          if (err != null) err.classList.remove(`${Styles.form__error__active}`);
         }
       }
     }

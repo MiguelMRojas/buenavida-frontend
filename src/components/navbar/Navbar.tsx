@@ -28,7 +28,7 @@ export function Navbar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to='#' className={Styles.navigation__item}>
+              <NavLink to='/login' className={Styles.navigation__item}>
                 <FiUser color={'#21a764'} />
                 <span>Account</span>
               </NavLink>
