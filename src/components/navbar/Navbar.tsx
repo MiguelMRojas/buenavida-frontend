@@ -10,7 +10,7 @@ export function Navbar() {
 
   // Update provider's criteria
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const value = e.target.value;
     setCriteria(value);
   };
 

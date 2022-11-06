@@ -1,15 +1,16 @@
 import Styles from './ProductsGrid.module.css';
-import { useState, useEffect } from 'react';
-import { getProducts, getProductImage } from '../../services/products.service';
+import { useState, useContext, useEffect } from 'react';
 import { Iproduct } from '../../interfaces/interfaces';
 import { ProductCard } from '../../components/productCard/ProductCard';
 import { ModalProduct } from '../../components/modalproducts/ModalProducts';
 import ReactPaginate from 'react-paginate';
 import { Slider } from '../../components/slider/Slider';
 
+import { FilterContext } from '../../context/FilterContext';
+
 export function ProductsGrid() {
-  const [inventory, setInventory] = useState(new Array<Iproduct>());
-  const [products, setProducts] = useState(new Array<Iproduct>());
+
+  const { products, inventory, setProducts } = useContext(FilterContext);
 
   // Estado que guarda los datos del producto
   const [modalData, setModalData] = useState({
@@ -49,28 +50,7 @@ export function ProductsGrid() {
     setProducts(page);
   };
 
-  {
-    /* Get products on load */
-  }
-
-  useEffect(() => {
-    const load = async () => {
-      const response = await getProducts();
-      const items: Array<Iproduct> = response.products;
-      const products: Array<Iproduct> = [];
-
-      for (let i = 0; i < items.length; i++) {
-        const imageReply = await getProductImage(items[i].serial);
-        console.log(imageReply);
-        products.push({ ...items[i], image: imageReply.image });
-      }
-
-      setInventory(products);
-    };
-
-    load();
-  }, []);
-
+  //setinventario y setcontext setproducts vienen del contexto
   useEffect(() => {
     setProducts(inventory.slice(0, 12));
   }, [inventory]);
