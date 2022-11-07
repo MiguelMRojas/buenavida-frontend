@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './global.css';
 
 // Contexts
+import { FilterContextProvider } from './context/FilterContext';
 import { SessionContextProvider } from './context/SessionContext';
 
 // Components
@@ -20,11 +21,15 @@ import { Signup } from './pages/signup/Signup';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ToastContainer />
       <SessionContextProvider>
-        <Navbar />
+        <ToastContainer />
+        <FilterContextProvider>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<ProductsGrid />}></Route>
+          </Routes>
+        </FilterContextProvider>
         <Routes>
-          <Route path='/' element={<ProductsGrid />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
         </Routes>

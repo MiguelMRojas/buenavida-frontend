@@ -6,6 +6,15 @@ export const getProducts = async () => {
   return response.data;
 };
 
+export const getProductsFiltrated = async (from: number, to: number, criteria: string) => {
+  const response = await axios.post(`${GLOBALS.API_HOST}/api/products/filter`, {
+    from: from,
+    to: to,
+    search_criteria: criteria,
+  });
+  return response.data;
+};
+
 // export const getPageproducts = async (page: number) => {
 //   const response = await axios.get(`${GLOBALS.API_HOST}/api/products/${page}`);
 //   return response.data;
