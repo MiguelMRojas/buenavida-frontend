@@ -27,6 +27,10 @@
   flex-grow: 1;
 }
 
+.navbar__search{
+  cursor: pointer;
+}
+
 /* Search bar */
 .navbar__inputContainer {
   position: relative;

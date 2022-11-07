@@ -1,13 +1,13 @@
 import Styles from './Navbar.module.css';
 import { useContext, ChangeEvent } from 'react';
-import { NavLink } from 'react-router-dom';
-import { SessionContext } from '../../context/SessionContext';
+import { NavLink, Link } from 'react-router-dom';
+// import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi';
 import { FilterContext } from '../../context/FilterContext';
 
 export function Navbar() {
   // Fucntion from the provider
-  const { setCriteria } = useContext(FilterContext);
+  const { setCriteria, filterProducts } = useContext(FilterContext);
 
   // Update provider's criteria
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +19,9 @@ export function Navbar() {
     <nav className={Styles.navbarBlock}>
       <div className={`${Styles.navbarContainer} container`}>
         <div className={Styles.navbar__brand}>
-          <img src='/images/logo.jpg' alt='Buenavida store logo' />
+          <Link to='/'>
+            <img src='/images/logo.jpg' alt='Buenavida store logo' />
+          </Link>
         </div>
         {/* Searchbar and navigation container*/}
         <div className={Styles.navbar__right}>
@@ -29,8 +31,21 @@ export function Navbar() {
               placeholder='Search products here'
               autoFocus
               onChange={handleInputChange}
+              onKeyDownCapture={(e) => {
+                if (e.key == 'Enter') {
+                  console.log('Filtering because of enter key pressed');
+                  filterProducts();
+                }
+              }}
             ></input>
-            <FiSearch color={'#21a764'} id={Styles.searchIcon} />
+            <FiSearch
+	      className={Styles.navbar__search}
+              color={'#21a764'}
+              id={Styles.searchIcon}
+              onClick={() => {
+                filterProducts();
+              }}
+            />
           </div>
           <ul className={Styles.navigation}>
             <li>

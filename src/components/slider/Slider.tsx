@@ -95,7 +95,7 @@ export function Slider() {
             min='0'
             max='81.8'
             defaultValue='50'
-            step='0.01'
+            step='1'
             className={Styles.slider}
           />
         </div>
@@ -107,7 +107,7 @@ export function Slider() {
               onInput={onInputListener}
               name='from'
               id='from'
-              step='0.01'
+              step='1'
               min='0'
               max='81.8'
               type='number'
