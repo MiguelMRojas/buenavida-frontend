@@ -20,3 +20,15 @@ export interface ModalProduct {
   price: number;
   description: string;
 }
+
+export interface IUser {
+  id: number;
+  email: string;
+  firstname: string;
+  lastname: string;
+}
+
+// Session provider interface
+export interface ISessionProvider {
+  user: IUser;
+}

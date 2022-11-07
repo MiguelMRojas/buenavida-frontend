@@ -1,6 +1,10 @@
 import { DynamicForm } from '../../components/dynamicForm/DynamicForm';
 
 export function Signup() {
+  const HandleSignupSubmit = async (temp: string) => {
+    console.log(temp);
+  };
+
   const loginFields = [
     {
       label: 'First name',
@@ -34,5 +38,12 @@ export function Signup() {
     },
   ];
 
-  return <DynamicForm title='Signup' fields={loginFields} submitLabel='Login' />;
+  return (
+    <DynamicForm
+      title='Signup'
+      fields={loginFields}
+      callback={HandleSignupSubmit}
+      submitLabel='Login'
+    />
+  );
 }

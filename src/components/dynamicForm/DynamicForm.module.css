@@ -38,6 +38,18 @@
   background-color: var(--inputs-bg);
 }
 
+.form__error {
+  display: none;
+  margin-block: 8px;
+  list-style: none;
+  font-size: var(--sm);
+  color: var(--accented-red);
+}
+
+.form__error__active {
+  display: block;
+}
+
 .form__submit {
   cursor: pointer;
   display: block;

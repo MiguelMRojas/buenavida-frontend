@@ -1,6 +1,8 @@
 import Styles from './Navbar.module.css';
 import { useContext, ChangeEvent } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi';
 import { FilterContext } from '../../context/FilterContext';
 
@@ -39,7 +41,7 @@ export function Navbar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to='#' className={Styles.navigation__item}>
+              <NavLink to='/login' className={Styles.navigation__item}>
                 <FiUser color={'#21a764'} />
                 <span>Account</span>
               </NavLink>
