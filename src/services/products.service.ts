@@ -7,7 +7,7 @@ export const getProducts = async () => {
 };
 
 export const getProductsFiltrated = async (from: number, to: number, criteria: string) => {
-  const response = await axios.post(`${GLOBALS.API_HOST}/api/products/filtration`, {
+  const response = await axios.post(`${GLOBALS.API_HOST}/api/products/filter`, {
     from: from,
     to: to,
     search_criteria: criteria,

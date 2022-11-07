@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Routes>
             <Route path='/' element={<ProductsGrid />}></Route>
           </Routes>
-        </FilterContextProvider>   
+        </FilterContextProvider>
         <Routes>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<Signup />}></Route>

@@ -37,7 +37,6 @@ export function Slider() {
       setMin(parseFloat(firstNumInput.current.value));
       setMax(parseFloat(secndNumInput.current.value));
     }
-
   };
 
   //adding event to inputs desde and hasta
@@ -73,16 +72,18 @@ export function Slider() {
       firstNumInput.current.value = `${0}`;
       setMin(parseFloat(firstNumInput.current.value));
     }
-
-
   };
 
   return (
     <div className={Styles.filterContainer}>
-      <form method='post' id='filter-form' onSubmit={(e) => {
-        e.preventDefault();
-        filterProducts();
-      }}>
+      <form
+        method='post'
+        id='filter-form'
+        onSubmit={(e) => {
+          e.preventDefault();
+          filterProducts();
+        }}
+      >
         <div className={Styles.rangeContainer}>
           <label htmlFor='sliderprice'>Precio</label>
           <input
@@ -130,7 +131,9 @@ export function Slider() {
             />
           </div>
         </div>
-        <button type='submit' className={Styles.filterButton}>Filtrar</button>
+        <button type='submit' className={Styles.filterButton}>
+          Filtrar
+        </button>
       </form>
     </div>
   );
