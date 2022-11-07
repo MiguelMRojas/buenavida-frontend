@@ -9,7 +9,6 @@ import { Slider } from '../../components/slider/Slider';
 import { FilterContext } from '../../context/FilterContext';
 
 export function ProductsGrid() {
-
   const { products, inventory, setProducts } = useContext(FilterContext);
 
   // Estado que guarda los datos del producto

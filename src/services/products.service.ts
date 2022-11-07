@@ -6,11 +6,11 @@ export const getProducts = async () => {
   return response.data;
 };
 
-export const getProductsFiltrated = async (from: string, to: string, criteria: string) => {
-  const response = await axios.post(`${GLOBALS.API_HOST}/api/products/searcht`, {
-    from: parseInt(from),
-    to: parseInt(to),
-    search_criteria: criteria
+export const getProductsFiltrated = async (from: number, to: number, criteria: string) => {
+  const response = await axios.post(`${GLOBALS.API_HOST}/api/products/filtration`, {
+    from: from,
+    to: to,
+    search_criteria: criteria,
   });
   return response.data;
 };

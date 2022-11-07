@@ -1,6 +1,7 @@
 import { useState, createContext, useEffect, ReactNode } from 'react';
 import { getProducts, getProductImage } from '../services/products.service';
 import { Iproduct } from '../interfaces/interfaces';
+import { getProductsFiltrated } from '../services/products.service';
 
 interface Props {
   children: ReactNode;
@@ -21,6 +22,8 @@ interface IFilterContext {
   products: Array<Iproduct>;
   // eslint-disable-next-line no-unused-vars
   setProducts: (products: Array<Iproduct>) => void;
+  // eslint-disable-next-line no-unused-vars
+  filterProducts: () => void;
 }
 
 //default value return of function
@@ -28,7 +31,7 @@ interface IFilterContext {
 export const FilterContext = createContext<IFilterContext>({
   criteria: '',
   min: 0,
-  max: 81.7,
+  max: 81.8,
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   setCriteria: (criteria: string) => {},
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
@@ -39,6 +42,8 @@ export const FilterContext = createContext<IFilterContext>({
   products: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   setProducts: (products: Array<Iproduct>) => {},
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  filterProducts: () => {},
 });
 
 // Component
@@ -48,8 +53,7 @@ export const FilterContextProvider = ({ children }: Props) => {
 
   const [criteria, setCriteria] = useState('');
   const [min, setMin] = useState(0);
-  const [max, setMax] = useState(81.7);
-
+  const [max, setMax] = useState(81.8);
 
   useEffect(() => {
     const load = async () => {
@@ -69,15 +73,36 @@ export const FilterContextProvider = ({ children }: Props) => {
     load();
   }, []);
 
-  const updateFilter = () => {
-    console.log('test');
+  //updating products to show from filter
+  const filterProducts = async () => {
+    const response = await getProductsFiltrated(min, max, criteria);
+    const items: Array<Iproduct> = response.products;
+    const products: Array<Iproduct> = [];
+
+    if (items != undefined) {
+      for (let i = 0; i < items.length; i++) {
+        const imageReply = await getProductImage(items[i].serial);
+        products.push({ ...items[i], image: imageReply.image });
+      }
+      setInventory(products);
+    }
   };
 
-  console.log(updateFilter());
-
-  //real function
   return (
-    <FilterContext.Provider value={{ criteria, min, max, setCriteria, setMin, setMax, inventory, products, setProducts, /* updateFilter */ }}>
+    <FilterContext.Provider
+      value={{
+        criteria,
+        min,
+        max,
+        setCriteria,
+        setMin,
+        setMax,
+        inventory,
+        products,
+        setProducts,
+        filterProducts,
+      }}
+    >
       {children}
     </FilterContext.Provider>
   );
