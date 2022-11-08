@@ -1,6 +1,9 @@
 import Styles from './ProductCard.module.css';
 import { Iproduct } from '../../interfaces/interfaces';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
+import { useContext } from 'react';
+import { SessionContext } from '../../context/SessionContext';
+import { toast } from 'react-toastify';
 
 interface props {
   product: Iproduct;
@@ -11,6 +14,28 @@ interface props {
 // producto: producto
 // dialogcallback: funcion para abrir el modal
 export function ProductCard(props: props) {
+  const { addToCart } = useContext(SessionContext);
+
+  const HandleAddToCart = () => {
+    const wasAdded = addToCart(props.product);
+
+    if (wasAdded) {
+      toast.success(`Successfully added ${props.product.name} to the cart`, {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'light',
+      });
+    } else {
+      toast.error(`Unable to add ${props.product.name} to the cart. Try again.`, {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'light',
+      });
+    }
+  };
+
   return (
     <article className={Styles.product}>
       <FiHeart className={Styles.product__heart} color={'red'} size={'1.4em'} />
@@ -27,7 +52,12 @@ export function ProductCard(props: props) {
         <span className={Styles.product__units}>{props.product.units}</span>
       )}
       <span className={Styles.product__price}>{props.product.price + '€'}</span>
-      <button className={Styles.product__button}>
+      <button
+        className={Styles.product__button}
+        onClick={() => {
+          HandleAddToCart();
+        }}
+      >
         <FiShoppingCart /> Add to cart
       </button>
     </article>

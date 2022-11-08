@@ -2,6 +2,7 @@ import Styles from './ShopCartPageRow.module.css';
 import { useContext } from 'react';
 import { SessionContext } from '../../../context/SessionContext';
 import { FiTrash2 } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 
 interface IProduct {
   id: string;
@@ -18,6 +19,26 @@ interface IProps {
 
 export function ShopCartPageRow(props: IProps) {
   const { removeFromCart } = useContext(SessionContext);
+
+  const HandleRemoveFromCart = () => {
+    const wasDeleted = removeFromCart(props.product.id);
+
+    if (wasDeleted) {
+      toast.success(`Successfully removed ${props.product.name} from the cart`, {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'light',
+      });
+    } else {
+      toast.error(`Unable to remove ${props.product.name} from the cart. Try again.`, {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'light',
+      });
+    }
+  };
 
   return (
     <article className={Styles.product}>
@@ -46,7 +67,7 @@ export function ShopCartPageRow(props: IProps) {
           color='red'
           size={'1.2em'}
           onClick={() => {
-            removeFromCart(props.product.id);
+            HandleRemoveFromCart();
           }}
         />
       </div>

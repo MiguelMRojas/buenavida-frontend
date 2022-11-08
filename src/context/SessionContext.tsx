@@ -4,7 +4,12 @@ import { IUser, ICartItem } from '../interfaces/interfaces';
 import { UserTemplate } from '../templates/user';
 
 import { GetProductImageFromEndpointService } from '../services/products.service';
-import { WhoamiService, GetCartService, RemoveFromCartService } from '../services/session.services';
+import {
+  WhoamiService,
+  GetCartService,
+  RemoveFromCartService,
+  AddToCartService,
+} from '../services/session.services';
 
 interface Props {
   children: ReactNode;
@@ -19,6 +24,8 @@ interface ISessionCTX {
   login: (response: AxiosResponse) => Promise<void>;
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => Promise<boolean>;
+  // eslint-disable-next-line no-unused-vars
+  addToCart: (item: ICartItem) => Promise<boolean>;
 }
 
 // Here we define the default values for each
@@ -31,7 +38,13 @@ export const SessionContext = createContext<ISessionCTX>({
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
-  removeFromCart: async function (id: string) {},
+  removeFromCart: async function (id: string) {
+    return true;
+  },
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  addToCart: async function (item: ICartItem) {
+    return true;
+  },
 });
 
 // Session provider
@@ -78,7 +91,7 @@ export const SessionContextProvider = ({ children }: Props) => {
     getUserCart();
   }, [isLoggedIn]);
 
-  // Actyual value for login function
+  // Actual value for login function
   const login = async (response: AxiosResponse) => {
     setUser(response.data.user);
     setIsLoggedIn(true);
@@ -92,12 +105,42 @@ export const SessionContextProvider = ({ children }: Props) => {
     if (wasDeleted) {
       const newCart = cart.filter((product) => product.id != id);
       setCart(newCart);
+      return true;
     }
+
+    return false;
+  };
+
+  // Add item to cart
+  const addToCart = async (item: ICartItem) => {
+    const wasAdded = await AddToCartService(1, item.id);
+
+    if (wasAdded) {
+      const exists = cart.some((product) => product.id === item.id);
+
+      if (exists) {
+        const newCart = cart.map((product) => {
+          if (product.id === item.id) {
+            return { ...product, quantity: product.quantity + 1 };
+          } else {
+            return product;
+          }
+        });
+
+        setCart(newCart);
+      } else {
+        setCart([...cart, { ...item, quantity: 1 }]);
+      }
+
+      return true;
+    }
+
+    return false;
   };
 
   return (
     <SessionContext.Provider
-      value={{ user, login, isLoggedIn, isSessionLoading, cart, removeFromCart }}
+      value={{ user, login, isLoggedIn, isSessionLoading, cart, removeFromCart, addToCart }}
     >
       {children}
     </SessionContext.Provider>

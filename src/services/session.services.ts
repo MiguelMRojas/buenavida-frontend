@@ -86,9 +86,30 @@ export const GetCartService = async (it: number): Promise<any> => {
   }
 };
 
-// Remove item from user cart
+// Add to user cart
+export const AddToCartService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  try {
+    const payload = { id };
+    const response = await axios.post(`${GLOBALS.API_HOST}/api/cart`, payload, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await AddToCartService(it++, id);
+      }
+      return false;
+    }
+    return false;
+  }
+};
+
+// Remove item from user cart
 export const RemoveFromCartService = async (it: number, id: string): Promise<boolean> => {
   if (it > 2) return false;
 
