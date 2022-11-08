@@ -1,18 +1,77 @@
 import Styles from './Navbar.module.css';
 import { useContext, ChangeEvent } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-// import { SessionContext } from '../../context/SessionContext';
+import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch, FiLock, FiUserCheck } from 'react-icons/fi';
 import { FilterContext } from '../../context/FilterContext';
 
 export function Navbar() {
   // Fucntion from the provider
   const { setCriteria, filterProducts } = useContext(FilterContext);
+  const { isLoggedIn } = useContext(SessionContext);
 
   // Update provider's criteria
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setCriteria(value);
+  };
+
+  // Float options for logged in user
+  const LoggedInOptions = () => {
+    return (
+      <>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/'>
+            <FiUser color={'#2f2f2f'} />
+            <span>Mi Cuenta</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/'>
+            <FiHeart color={'#2f2f2f'} />
+            <span>Mis favoritos</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/'>
+            <FiShoppingCart color={'#2f2f2f'} />
+            <span>Mi Carrito</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/login'>
+            <FiLock color={'#2f2f2f'} />
+            <span>Entrar</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/signup'>
+            <FiUserCheck color={'#2f2f2f'} />
+            <span>Crear cuenta</span>
+          </Link>
+        </li>
+      </>
+    );
+  };
+
+  // Float options for not logged in user
+  const NotLoggedInOptions = () => {
+    return (
+      <>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/login'>
+            <FiLock color={'#2f2f2f'} />
+            <span>Entrar</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/signup'>
+            <FiUserCheck color={'#2f2f2f'} />
+            <span>Crear cuenta</span>
+          </Link>
+        </li>
+      </>
+    );
   };
 
   return (
@@ -39,7 +98,7 @@ export function Navbar() {
               }}
             ></input>
             <FiSearch
-	      className={Styles.navbar__search}
+              className={Styles.navbar__search}
               color={'#21a764'}
               id={Styles.searchIcon}
               onClick={() => {
@@ -59,36 +118,7 @@ export function Navbar() {
                 <FiUser color={'#21a764'} />
                 <span>Account</span>
                 <ul className={Styles.navigation__float}>
-                  <li>
-                    <Link className={Styles.navigation__floatItem} to='/'>
-                      <FiUser color={'#2f2f2f'} />
-                      <span>Mi Cuenta</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={Styles.navigation__floatItem} to='/'>
-                      <FiHeart color={'#2f2f2f'} />
-                      <span>Mis favoritos</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={Styles.navigation__floatItem} to='/'>
-                      <FiShoppingCart color={'#2f2f2f'} />
-                      <span>Mi Carrito</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={Styles.navigation__floatItem} to='/'>
-                      <FiLock color={'#2f2f2f'} />
-                      <span>Entrar</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={Styles.navigation__floatItem} to='/'>
-                      <FiUserCheck color={'#2f2f2f'} />
-                      <span>Crear cuenta</span>
-                    </Link>
-                  </li>
+                  {isLoggedIn ? LoggedInOptions() : NotLoggedInOptions()}
                 </ul>
               </NavLink>
             </li>
