@@ -153,7 +153,15 @@ export function Navbar() {
           </div>
         </div>
       </nav>
-      {openCartDialog ? <CartDialog /> : ''}
+      {openCartDialog ? (
+        <CartDialog
+          closeCallback={() => {
+            setOpenCartDialog(false);
+          }}
+        />
+      ) : (
+        ''
+      )}
     </>
   );
 }
