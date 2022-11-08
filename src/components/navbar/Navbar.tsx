@@ -1,5 +1,5 @@
 import Styles from './Navbar.module.css';
-import { useContext, ChangeEvent, useRef } from 'react';
+import { useContext, ChangeEvent, useRef, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch, FiLock, FiUserCheck } from 'react-icons/fi';
@@ -9,6 +9,8 @@ import { CartDialog } from '../CartDialog/CartDialog';
 export function Navbar() {
   // Fucntion from the provider
   const { setCriteria, filterProducts } = useContext(FilterContext);
+  const [openCartDialog, setOpenCartDialog] = useState(false);
+
   const { isLoggedIn } = useContext(SessionContext);
   const floatingOptions = useRef<HTMLUListElement | null>(null);
 
@@ -137,7 +139,11 @@ export function Navbar() {
                   </ul>
                 </NavLink>
               </li>
-              <li>
+              <li
+                onClick={() => {
+                  setOpenCartDialog(!openCartDialog);
+                }}
+              >
                 <NavLink to='#' className={Styles.navigation__item}>
                   <FiShoppingCart color={'#21a764'} />
                   <span>Cart</span>
@@ -147,7 +153,7 @@ export function Navbar() {
           </div>
         </div>
       </nav>
-      <CartDialog></CartDialog>
+      {openCartDialog ? <CartDialog /> : ''}
     </>
   );
 }

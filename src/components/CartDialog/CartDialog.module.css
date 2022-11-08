@@ -31,27 +31,27 @@
 }
 
 .dialog__subtotal,
-.dialog__total{
+.dialog__total {
   display: flex;
   justify-content: space-between;
   margin-block: 12px;
 }
 
-.dialog__subtotal{
+.dialog__subtotal {
   font-size: var(--sm);
   color: var(--texts-light);
 }
 
-.dialog__total{
+.dialog__total {
   font-size: var(--md);
   font-weight: bolder;
 }
 
-.dialog__total .rowText{
+.dialog__total .rowText {
   color: var(--accented-green);
 }
 
-.dialog__button{
+.dialog__button {
   display: block;
   width: 100%;
   margin-block: 16px 12px;
