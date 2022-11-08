@@ -1,5 +1,5 @@
 import Styles from './Navbar.module.css';
-import { useContext, ChangeEvent } from 'react';
+import { useContext, ChangeEvent, useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch, FiLock, FiUserCheck } from 'react-icons/fi';
@@ -9,11 +9,20 @@ export function Navbar() {
   // Fucntion from the provider
   const { setCriteria, filterProducts } = useContext(FilterContext);
   const { isLoggedIn } = useContext(SessionContext);
+  const floatingOptions = useRef<HTMLUListElement | null>(null);
 
   // Update provider's criteria
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setCriteria(value);
+  };
+
+  // Const handle dropdown click
+  const handleDropDownClick = () => {
+    if (!floatingOptions) return;
+    if (!floatingOptions.current) return;
+
+    floatingOptions.current.classList.toggle(`${Styles.navigation__floatVisible}`);
   };
 
   // Float options for logged in user
@@ -113,11 +122,15 @@ export function Navbar() {
                 <span>Favorites</span>
               </NavLink>
             </li>
-            <li>
+            <li
+              onClick={() => {
+                handleDropDownClick();
+              }}
+            >
               <NavLink to='#' className={Styles.navigation__item}>
                 <FiUser color={'#21a764'} />
                 <span>Account</span>
-                <ul className={Styles.navigation__float}>
+                <ul className={Styles.navigation__float} ref={floatingOptions}>
                   {isLoggedIn ? LoggedInOptions() : NotLoggedInOptions()}
                 </ul>
               </NavLink>
