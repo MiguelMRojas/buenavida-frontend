@@ -10,6 +10,14 @@ export interface Iproduct {
   description: string;
 }
 
+export interface ICartItem {
+  name: string;
+  units: string;
+  quantity: number;
+  price: number;
+  image: string;
+}
+
 export interface ModalProduct {
   id: string;
   name: string;

@@ -1,8 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { createContext, useState, useEffect, ReactNode } from 'react';
-import { IUser } from '../interfaces/interfaces';
+import { IUser, ICartItem } from '../interfaces/interfaces';
 import { UserTemplate } from '../templates/user';
-import { WhoamiService } from '../services/session.services';
+
+import { GetProductImageFromEndpointService } from '../services/products.service';
+import { WhoamiService, GetCartService } from '../services/session.services';
 
 interface Props {
   children: ReactNode;
@@ -12,6 +14,7 @@ interface ISessionCTX {
   user: IUser;
   isLoggedIn: boolean;
   isSessionLoading: boolean;
+  cart: Array<ICartItem>;
   // eslint-disable-next-line no-unused-vars
   login: (response: AxiosResponse) => Promise<void>;
 }
@@ -22,6 +25,7 @@ export const SessionContext = createContext<ISessionCTX>({
   user: UserTemplate,
   isLoggedIn: false,
   isSessionLoading: true,
+  cart: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
 });
@@ -29,6 +33,7 @@ export const SessionContext = createContext<ISessionCTX>({
 // Session provider
 export const SessionContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState(UserTemplate);
+  const [cart, setCart] = useState(Array<ICartItem>);
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -36,7 +41,7 @@ export const SessionContextProvider = ({ children }: Props) => {
   // or new start
   useEffect(() => {
     const recover = async () => {
-      const reply = await WhoamiService();
+      const reply = await WhoamiService(1); // First iteration
       if (!reply) return;
 
       if (reply.status === 200) {
@@ -49,6 +54,26 @@ export const SessionContextProvider = ({ children }: Props) => {
     recover();
   }, []);
 
+  // Get user cart onload
+  useEffect(() => {
+    const getUserCart = async () => {
+      const reply = await GetCartService(1); // First iteration
+      if (!reply?.data) return;
+
+      const items = reply.data.products;
+      const products: Array<ICartItem> = [];
+
+      for (let i = 0; i < items.length; i++) {
+        const response = await GetProductImageFromEndpointService(items[i].image);
+        products.push({ ...items[i], image: response.image });
+      }
+
+      setCart(products);
+    };
+
+    getUserCart();
+  }, [user]);
+
   // Actyual value for login function
   const login = async (response: AxiosResponse) => {
     setUser(response.data.user);
@@ -57,7 +82,7 @@ export const SessionContextProvider = ({ children }: Props) => {
   };
 
   return (
-    <SessionContext.Provider value={{ user, login, isLoggedIn, isSessionLoading }}>
+    <SessionContext.Provider value={{ user, login, isLoggedIn, isSessionLoading, cart }}>
       {children}
     </SessionContext.Provider>
   );

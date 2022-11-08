@@ -24,3 +24,8 @@ export const getProductImage = async (serial: number) => {
   const response = await axios.get(`${GLOBALS.API_HOST}/api/products/image/${serial}`);
   return response.data;
 };
+
+export const GetProductImageFromEndpointService = async (endpoint: string) => {
+  const response = await axios.get(`${GLOBALS.API_HOST}/api${endpoint}`);
+  return response.data;
+};

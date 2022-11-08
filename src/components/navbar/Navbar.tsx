@@ -1,13 +1,16 @@
 import Styles from './Navbar.module.css';
-import { useContext, ChangeEvent, useRef } from 'react';
+import { useContext, ChangeEvent, useRef, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
 import { FiHeart, FiUser, FiShoppingCart, FiSearch, FiLock, FiUserCheck } from 'react-icons/fi';
 import { FilterContext } from '../../context/FilterContext';
+import { CartDialog } from '../CartDialog/CartDialog';
 
 export function Navbar() {
   // Fucntion from the provider
   const { setCriteria, filterProducts } = useContext(FilterContext);
+  const [openCartDialog, setOpenCartDialog] = useState(false);
+
   const { isLoggedIn } = useContext(SessionContext);
   const floatingOptions = useRef<HTMLUListElement | null>(null);
 
@@ -84,66 +87,81 @@ export function Navbar() {
   };
 
   return (
-    <nav className={Styles.navbarBlock}>
-      <div className={`${Styles.navbarContainer} container`}>
-        <div className={Styles.navbar__brand}>
-          <Link to='/'>
-            <img src='/images/logo.jpg' alt='Buenavida store logo' />
-          </Link>
-        </div>
-        {/* Searchbar and navigation container*/}
-        <div className={Styles.navbar__right}>
-          <div className={Styles.navbar__inputContainer}>
-            <input
-              type='text'
-              placeholder='Search products here'
-              autoFocus
-              onChange={handleInputChange}
-              onKeyDownCapture={(e) => {
-                if (e.key == 'Enter') {
-                  console.log('Filtering because of enter key pressed');
-                  filterProducts();
-                }
-              }}
-            ></input>
-            <FiSearch
-              className={Styles.navbar__search}
-              color={'#21a764'}
-              id={Styles.searchIcon}
-              onClick={() => {
-                filterProducts();
-              }}
-            />
+    <>
+      <nav className={Styles.navbarBlock}>
+        <div className={`${Styles.navbarContainer} container`}>
+          <div className={Styles.navbar__brand}>
+            <Link to='/'>
+              <img src='/images/logo.jpg' alt='Buenavida store logo' />
+            </Link>
           </div>
-          <ul className={Styles.navigation}>
-            <li>
-              <NavLink to='#' className={Styles.navigation__item}>
-                <FiHeart color={'#21a764'} />
-                <span>Favorites</span>
-              </NavLink>
-            </li>
-            <li
-              onClick={() => {
-                handleDropDownClick();
-              }}
-            >
-              <NavLink to='#' className={Styles.navigation__item}>
-                <FiUser color={'#21a764'} />
-                <span>Account</span>
-                <ul className={Styles.navigation__float} ref={floatingOptions}>
-                  {isLoggedIn ? LoggedInOptions() : NotLoggedInOptions()}
-                </ul>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to='#' className={Styles.navigation__item}>
-                <FiShoppingCart color={'#21a764'} />
-                <span>Cart</span>
-              </NavLink>
-            </li>
-          </ul>
+          {/* Searchbar and navigation container*/}
+          <div className={Styles.navbar__right}>
+            <div className={Styles.navbar__inputContainer}>
+              <input
+                type='text'
+                placeholder='Search products here'
+                autoFocus
+                onChange={handleInputChange}
+                onKeyDownCapture={(e) => {
+                  if (e.key == 'Enter') {
+                    console.log('Filtering because of enter key pressed');
+                    filterProducts();
+                  }
+                }}
+              ></input>
+              <FiSearch
+                className={Styles.navbar__search}
+                color={'#21a764'}
+                id={Styles.searchIcon}
+                onClick={() => {
+                  filterProducts();
+                }}
+              />
+            </div>
+            <ul className={Styles.navigation}>
+              <li>
+                <NavLink to='/' className={Styles.navigation__item}>
+                  <FiHeart color={'#21a764'} />
+                  <span>Favorites</span>
+                </NavLink>
+              </li>
+              <li
+                onClick={() => {
+                  handleDropDownClick();
+                }}
+              >
+                <div className={Styles.navigation__item}>
+                  <FiUser color={'#21a764'} />
+                  <span>Account</span>
+                  <ul className={Styles.navigation__float} ref={floatingOptions}>
+                    {isLoggedIn ? LoggedInOptions() : NotLoggedInOptions()}
+                  </ul>
+                </div>
+              </li>
+              <li
+                onClick={() => {
+                  setOpenCartDialog(!openCartDialog);
+                }}
+              >
+                <div className={Styles.navigation__item}>
+                  <FiShoppingCart color={'#21a764'} />
+                  <span>Cart</span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      {openCartDialog ? (
+        <CartDialog
+          closeCallback={() => {
+            setOpenCartDialog(false);
+          }}
+        />
+      ) : (
+        ''
+      )}
+    </>
   );
 }
