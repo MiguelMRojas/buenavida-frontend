@@ -72,7 +72,7 @@ export const SessionContextProvider = ({ children }: Props) => {
     };
 
     getUserCart();
-  }, [user]);
+  }, [isLoggedIn]);
 
   // Actyual value for login function
   const login = async (response: AxiosResponse) => {
