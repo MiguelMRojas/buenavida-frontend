@@ -1,5 +1,5 @@
 import Styles from './ProductCard.module.css';
-import { Iproduct } from '../../interfaces/interfaces';
+import { Iproduct, ICartItem } from '../../interfaces/interfaces';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { useContext } from 'react';
@@ -18,7 +18,16 @@ export function ProductCard(props: props) {
   const { addToCart, favorites } = useContext(SessionContext);
 
   const HandleAddToCart = async () => {
-    const wasAdded = await addToCart(props.product);
+    const CartItem: ICartItem = {
+      id: props.product.id,
+      name: props.product.name,
+      units: props.product.units,
+      quantity: 0,
+      price: props.product.price,
+      image: props.product.image,
+    };
+
+    const wasAdded = await addToCart(CartItem);
 
     if (wasAdded) {
       toast.success(`Successfully added ${props.product.name} to the cart`, {
