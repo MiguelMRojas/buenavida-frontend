@@ -1,0 +1,30 @@
+.dialog {
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: clamp(240px, 40vw, 440px);
+  padding: 12px 16px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 4px 0px 16px var(--box-shadows);
+}
+
+.dialog__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialog__title {
+  color: var(--accented-green);
+  font-size: var(--md);
+}
+
+.dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
