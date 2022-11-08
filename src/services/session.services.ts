@@ -101,7 +101,7 @@ export const GetFavoritesService = async (it: number): Promise<any> => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await GetCartService(++it); // Try one more time
+        return await GetFavoritesService(++it); // Try one more time
       }
 
       return err.response;
@@ -133,6 +133,29 @@ export const AddToCartService = async (it: number, id: string): Promise<boolean>
   }
 };
 
+// Add to favorites
+export const AddToFavoritesService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    const payload = { id };
+    const response = await axios.post(`${GLOBALS.API_HOST}/api/user/favorites`, payload, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await AddToFavoritesService(++it, id);
+      }
+      return false;
+    }
+    return false;
+  }
+};
+
 // Remove item from user cart
 export const RemoveFromCartService = async (it: number, id: string): Promise<boolean> => {
   if (it > 2) return false;
@@ -148,11 +171,33 @@ export const RemoveFromCartService = async (it: number, id: string): Promise<boo
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await GetCartService(++it); // Try one more time
+        return await RemoveFromCartService(++it, id); // Try one more time
       }
       return false;
     }
 
+    return false;
+  }
+};
+
+// Remove from favorites
+export const RemoveFromFavoritesService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    const response = await axios.delete(`${GLOBALS.API_HOST}/api/user/favorites/${id}`, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await RemoveFromFavoritesService(++it, id);
+      }
+      return false;
+    }
     return false;
   }
 };

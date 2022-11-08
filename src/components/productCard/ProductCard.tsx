@@ -15,7 +15,7 @@ interface props {
 // producto: producto
 // dialogcallback: funcion para abrir el modal
 export function ProductCard(props: props) {
-  const { addToCart, favorites } = useContext(SessionContext);
+  const { addToCart, favorites, addToFavorites, removeFromFavorites } = useContext(SessionContext);
 
   const HandleAddToCart = async () => {
     const CartItem: ICartItem = {
@@ -49,9 +49,23 @@ export function ProductCard(props: props) {
   return (
     <article className={Styles.product}>
       {favorites.some((id) => id === props.product.id) ? (
-        <FaHeart className={Styles.product__heart} color={'red'} size={'1.4em'} />
+        <FaHeart
+          className={Styles.product__heart}
+          color={'red'}
+          size={'1.4em'}
+          onClick={() => {
+            removeFromFavorites(props.product.id);
+          }}
+        />
       ) : (
-        <FiHeart className={Styles.product__heart} color={'red'} size={'1.4em'} />
+        <FiHeart
+          className={Styles.product__heart}
+          color={'red'}
+          size={'1.4em'}
+          onClick={() => {
+            addToFavorites(props.product.id);
+          }}
+        />
       )}
       <img
         onClick={() => {

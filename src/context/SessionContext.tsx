@@ -10,6 +10,8 @@ import {
   RemoveFromCartService,
   AddToCartService,
   GetFavoritesService,
+  RemoveFromFavoritesService,
+  AddToFavoritesService,
 } from '../services/session.services';
 
 interface Props {
@@ -28,6 +30,10 @@ interface ISessionCTX {
   removeFromCart: (id: string) => Promise<boolean>;
   // eslint-disable-next-line no-unused-vars
   addToCart: (item: ICartItem) => Promise<boolean>;
+  // eslint-disable-next-line no-unused-vars
+  removeFromFavorites: (id: string) => Promise<boolean>;
+  // eslint-disable-next-line no-unused-vars
+  addToFavorites: (id: string) => Promise<boolean>;
 }
 
 // Here we define the default values for each
@@ -46,6 +52,14 @@ export const SessionContext = createContext<ISessionCTX>({
   },
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   addToCart: async function (item: ICartItem) {
+    return true;
+  },
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  removeFromFavorites: async function (id: string) {
+    return true;
+  },
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  addToFavorites: async function (id: string) {
     return true;
   },
 });
@@ -150,6 +164,32 @@ export const SessionContextProvider = ({ children }: Props) => {
     return false;
   };
 
+  // Remove item from favorites
+  const removeFromFavorites = async (id: string) => {
+    const wasDeleted = await RemoveFromFavoritesService(1, id);
+    console.log(wasDeleted);
+
+    if (wasDeleted) {
+      const newFavorites = favorites.filter((fid) => fid !== id);
+      setFavorites(newFavorites);
+      return true;
+    }
+
+    return false;
+  };
+
+  // Add item to favorites
+  const addToFavorites = async (id: string) => {
+    const wasAdded = await AddToFavoritesService(1, id);
+
+    if (wasAdded) {
+      setFavorites([...favorites, id]);
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <SessionContext.Provider
       value={{
@@ -161,6 +201,8 @@ export const SessionContextProvider = ({ children }: Props) => {
         favorites,
         removeFromCart,
         addToCart,
+        removeFromFavorites,
+        addToFavorites,
       }}
     >
       {children}

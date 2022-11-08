@@ -20,11 +20,11 @@ interface IProps {
 export function ShopCartPageRow(props: IProps) {
   const { removeFromCart } = useContext(SessionContext);
 
-  const HandleRemoveFromCart = () => {
-    const wasDeleted = removeFromCart(props.product.id);
+  const HandleRemoveFromCart = async () => {
+    const wasDeleted = await removeFromCart(props.product.id);
 
     if (wasDeleted) {
-      toast.success(`Successfully removed ${props.product.name} from the cart`, {
+      toast.success(`Successfully remove ${props.product.name} from the cart`, {
         position: 'top-right',
         autoClose: 2500,
         pauseOnHover: true,
