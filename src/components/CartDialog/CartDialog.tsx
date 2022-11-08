@@ -13,11 +13,11 @@ export function CartDialog(props: IProps) {
 
   const GetCartTotal = () => {
     const price = cart.reduce((acc, curr) => {
-      return acc + (curr.price * curr.quantity);
-    }, 0)
+      return acc + curr.price * curr.quantity;
+    }, 0);
 
     return price.toFixed(2);
-  }
+  };
 
   return (
     <article className={Styles.dialog}>
@@ -41,7 +41,7 @@ export function CartDialog(props: IProps) {
       */}
       <div className={Styles.dialog__total}>
         <p className={Styles.rowText}>Total</p>
-	<p>{GetCartTotal()}</p>
+        <p>{GetCartTotal()}</p>
       </div>
       <button className={Styles.dialog__button}>Ir al carrito</button>
       <button className={Styles.dialog__button}>Realizar pedido</button>

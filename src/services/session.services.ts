@@ -20,10 +20,25 @@ export const LoginService = async (payload: ILoginPayload) => {
   }
 };
 
+// Get a new access-token
+export const RefreshTokenService = async (): boolean => {
+  try {
+    await axios.get(`${GLOBALS.API_HOST}/api/session/refresh`, {
+      withCredentials: true,
+    });
+
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
 // Recover the session user data from the api
 // from the access token sended as a cookie
 // withCredentials field is required
-export const WhoamiService = async () => {
+export const WhoamiService = async (it: number) => {
+  if (it > 2) return new axios.AxiosError().response;
+
   try {
     const response = await axios.get(`${GLOBALS.API_HOST}/api/session/whoami`, {
       withCredentials: true,
@@ -31,21 +46,38 @@ export const WhoamiService = async () => {
 
     return response;
   } catch (err) {
-    if (axios.isAxiosError(err)) return err.response;
-    else return new axios.AxiosError().response;
+    if (axios.isAxiosError(err)) {
+      // Error caused because of no access-token provided
+      if (err.response.status === 403) {
+        await RefreshTokenService();
+        return await WhoamiService(2); // Try one more time
+      }
+
+      return err.response;
+    }
+    return new axios.AxiosError().response;
   }
 };
 
 // Get user cart from api
-export const GetCartService = async () => {
+export const GetCartService = async (it: number) => {
+  if (it > 2) return new axios.AxiosError().response;
+
   try {
     const response = await axios.get(`${GLOBALS.API_HOST}/api/cart`, {
       withCredentials: true,
     });
-
     return response;
   } catch (err) {
-    if (axios.isAxiosError(err)) return err.response;
+    if (axios.isAxiosError(err)) {
+      // Error caused because of no access-token provided
+      if (err.response.status === 403) {
+        await RefreshTokenService();
+        return await GetCartService(2); // Try one more time
+      }
+
+      return err.response;
+    }
     return new axios.AxiosError().response;
   }
 };

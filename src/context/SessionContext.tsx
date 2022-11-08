@@ -41,7 +41,7 @@ export const SessionContextProvider = ({ children }: Props) => {
   // or new start
   useEffect(() => {
     const recover = async () => {
-      const reply = await WhoamiService();
+      const reply = await WhoamiService(1); // First iteration
       if (!reply) return;
 
       if (reply.status === 200) {
@@ -57,7 +57,7 @@ export const SessionContextProvider = ({ children }: Props) => {
   // Get user cart onload
   useEffect(() => {
     const getUserCart = async () => {
-      const reply = await GetCartService();
+      const reply = await GetCartService(1); // First iteration
       if (!reply?.data) return;
 
       const items = reply.data.products;

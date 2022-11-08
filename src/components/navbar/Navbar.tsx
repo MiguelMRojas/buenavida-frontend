@@ -121,7 +121,7 @@ export function Navbar() {
             </div>
             <ul className={Styles.navigation}>
               <li>
-                <NavLink to='#' className={Styles.navigation__item}>
+                <NavLink to='/' className={Styles.navigation__item}>
                   <FiHeart color={'#21a764'} />
                   <span>Favorites</span>
                 </NavLink>
@@ -131,23 +131,23 @@ export function Navbar() {
                   handleDropDownClick();
                 }}
               >
-                <NavLink to='#' className={Styles.navigation__item}>
+                <div className={Styles.navigation__item}>
                   <FiUser color={'#21a764'} />
                   <span>Account</span>
                   <ul className={Styles.navigation__float} ref={floatingOptions}>
                     {isLoggedIn ? LoggedInOptions() : NotLoggedInOptions()}
                   </ul>
-                </NavLink>
+                </div>
               </li>
               <li
                 onClick={() => {
                   setOpenCartDialog(!openCartDialog);
                 }}
               >
-                <NavLink to='#' className={Styles.navigation__item}>
+                <div to='#' className={Styles.navigation__item}>
                   <FiShoppingCart color={'#21a764'} />
                   <span>Cart</span>
-                </NavLink>
+                </div>
               </li>
             </ul>
           </div>
