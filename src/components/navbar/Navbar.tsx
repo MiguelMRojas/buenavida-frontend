@@ -2,7 +2,7 @@ import Styles from './Navbar.module.css';
 import { useContext, ChangeEvent } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 // import { SessionContext } from '../../context/SessionContext';
-import { FiHeart, FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi';
+import { FiHeart, FiUser, FiShoppingCart, FiSearch, FiLock, FiUserCheck } from 'react-icons/fi';
 import { FilterContext } from '../../context/FilterContext';
 
 export function Navbar() {
@@ -55,9 +55,41 @@ export function Navbar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to='/login' className={Styles.navigation__item}>
+              <NavLink to='#' className={Styles.navigation__item}>
                 <FiUser color={'#21a764'} />
                 <span>Account</span>
+                <ul className={Styles.navigation__float}>
+                  <li>
+                    <Link className={Styles.navigation__floatItem} to='/'>
+                      <FiUser color={'#2f2f2f'} />
+                      <span>Mi Cuenta</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className={Styles.navigation__floatItem} to='/'>
+                      <FiHeart color={'#2f2f2f'} />
+                      <span>Mis favoritos</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className={Styles.navigation__floatItem} to='/'>
+                      <FiShoppingCart color={'#2f2f2f'} />
+                      <span>Mi Carrito</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className={Styles.navigation__floatItem} to='/'>
+                      <FiLock color={'#2f2f2f'} />
+                      <span>Entrar</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className={Styles.navigation__floatItem} to='/'>
+                      <FiUserCheck color={'#2f2f2f'} />
+                      <span>Crear cuenta</span>
+                    </Link>
+                  </li>
+                </ul>
               </NavLink>
             </li>
             <li>
