@@ -21,6 +21,10 @@
   color: var(--accented-green);
 }
 
+.cart__subtitle{
+  color: var(--texts);
+}
+
 .cart__grid {
   display: flex;
   flex-direction: column;

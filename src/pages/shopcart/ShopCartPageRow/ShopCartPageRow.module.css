@@ -36,6 +36,12 @@
   align-items: center;
 }
 
+.product__price{
+  font-size: var(--sm);
+  font-weight: bolder;
+  color: var(--texts);
+}
+
 .product__input{
   padding: 0.8em;
   margin-inline: 16px;
