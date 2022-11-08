@@ -6,7 +6,7 @@
   transform: translate(-50%, -50%);
 
   width: clamp(240px, 40vw, 440px);
-  padding: 12px 16px;
+  padding: 24px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 4px 0px 16px var(--box-shadows);
@@ -20,11 +20,46 @@
 
 .dialog__title {
   color: var(--accented-green);
-  font-size: var(--md);
+  font-size: var(--lg);
+  text-transform: uppercase;
 }
 
 .dialog__body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.dialog__subtotal,
+.dialog__total{
+  display: flex;
+  justify-content: space-between;
+  margin-block: 12px;
+}
+
+.dialog__subtotal{
+  font-size: var(--sm);
+  color: var(--texts-light);
+}
+
+.dialog__total{
+  font-size: var(--md);
+  font-weight: bolder;
+}
+
+.dialog__total .rowText{
+  color: var(--accented-green);
+}
+
+.dialog__button{
+  display: block;
+  width: 100%;
+  margin-block: 16px 12px;
+  font-size: var(--sm);
+  background-color: var(--accented-green);
+  padding: 0.8em;
+  outline: none;
+  color: white;
+  border: 1px solid transparent;
+  border-radius: 12px;
 }

@@ -22,6 +22,16 @@ export function CartDialog() {
         <CartDialogRow product={ExampleProduct} />
         <CartDialogRow product={ExampleProduct} />
       </div>
+      <div className={Styles.dialog__subtotal}>
+	<p>Subtotal</p>
+	<p>38,40</p>
+      </div>
+      <div className={Styles.dialog__total}>
+	<p className={Styles.rowText}>Total</p>
+	<p>38,40</p>
+      </div>
+      <button className={Styles.dialog__button}>Ir al carrito</button>
+      <button className={Styles.dialog__button}>Realizar pedido</button>
     </article>
   );
 }
