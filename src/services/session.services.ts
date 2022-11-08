@@ -52,7 +52,7 @@ export const WhoamiService = async (it: number): Promise<any> => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await WhoamiService(it++); // Try one more time
+        return await WhoamiService(++it); // Try one more time
       }
 
       return err.response;
@@ -77,7 +77,7 @@ export const GetCartService = async (it: number): Promise<any> => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await GetCartService(it++); // Try one more time
+        return await GetCartService(++it); // Try one more time
       }
 
       return err.response;
@@ -101,7 +101,7 @@ export const AddToCartService = async (it: number, id: string): Promise<boolean>
     if (axios.isAxiosError(err)) {
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await AddToCartService(it++, id);
+        return await AddToCartService(++it, id);
       }
       return false;
     }
@@ -124,7 +124,7 @@ export const RemoveFromCartService = async (it: number, id: string): Promise<boo
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await GetCartService(it++); // Try one more time
+        return await GetCartService(++it); // Try one more time
       }
       return false;
     }
