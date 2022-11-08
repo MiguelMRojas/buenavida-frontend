@@ -87,6 +87,62 @@ export function Navbar() {
   };
 
   return (
+    <nav className={Styles.navbarBlock}>
+      <div className={`${Styles.navbarContainer} container`}>
+        <div className={Styles.navbar__brand}>
+          <Link to='/'>
+            <img src='/images/logo.jpg' alt='Buenavida store logo' />
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/'>
+            <FiHeart color={'#2f2f2f'} />
+            <span>Mis favoritos</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/'>
+            <FiShoppingCart color={'#2f2f2f'} />
+            <span>Mi Carrito</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/login'>
+            <FiLock color={'#2f2f2f'} />
+            <span>Entrar</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/signup'>
+            <FiUserCheck color={'#2f2f2f'} />
+            <span>Crear cuenta</span>
+          </Link>
+        </li>
+      </>
+    );
+  };
+
+  // Float options for not logged in user
+  const NotLoggedInOptions = () => {
+    return (
+      <>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/login'>
+            <FiLock color={'#2f2f2f'} />
+            <span>Entrar</span>
+          </Link>
+        </li>
+        <li>
+          <Link className={Styles.navigation__floatItem} to='/signup'>
+            <FiUserCheck color={'#2f2f2f'} />
+            <span>Crear cuenta</span>
+          </Link>
+        </li>
+      </>
+    );
+  };
+
+  return (
     <>
       <nav className={Styles.navbarBlock}>
         <div className={`${Styles.navbarContainer} container`}>
@@ -151,6 +207,33 @@ export function Navbar() {
               </li>
             </ul>
           </div>
+          <ul className={Styles.navigation}>
+            <li>
+              <NavLink to='#' className={Styles.navigation__item}>
+                <FiHeart color={'#21a764'} />
+                <span>Favorites</span>
+              </NavLink>
+            </li>
+            <li
+              onClick={() => {
+                handleDropDownClick();
+              }}
+            >
+              <NavLink to='#' className={Styles.navigation__item}>
+                <FiUser color={'#21a764'} />
+                <span>Account</span>
+                <ul className={Styles.navigation__float} ref={floatingOptions}>
+                  {isLoggedIn ? LoggedInOptions() : NotLoggedInOptions()}
+                </ul>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to='#' className={Styles.navigation__item}>
+                <FiShoppingCart color={'#21a764'} />
+                <span>Cart</span>
+              </NavLink>
+            </li>
+          </ul>
         </div>
       </nav>
       {openCartDialog ? (
