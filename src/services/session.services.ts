@@ -21,7 +21,7 @@ export const LoginService = async (payload: ILoginPayload) => {
 };
 
 // Get a new access-token
-export const RefreshTokenService = async (): boolean => {
+export const RefreshTokenService = async (): Promise<boolean> => {
   try {
     await axios.get(`${GLOBALS.API_HOST}/api/session/refresh`, {
       withCredentials: true,
@@ -36,7 +36,9 @@ export const RefreshTokenService = async (): boolean => {
 // Recover the session user data from the api
 // from the access token sended as a cookie
 // withCredentials field is required
-export const WhoamiService = async (it: number) => {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const WhoamiService = async (it: number): Promise<any> => {
   if (it > 2) return new axios.AxiosError().response;
 
   try {
@@ -48,7 +50,7 @@ export const WhoamiService = async (it: number) => {
   } catch (err) {
     if (axios.isAxiosError(err)) {
       // Error caused because of no access-token provided
-      if (err.response.status === 403) {
+      if (err.response?.status === 403) {
         await RefreshTokenService();
         return await WhoamiService(2); // Try one more time
       }
@@ -60,7 +62,9 @@ export const WhoamiService = async (it: number) => {
 };
 
 // Get user cart from api
-export const GetCartService = async (it: number) => {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const GetCartService = async (it: number): Promise<any> => {
   if (it > 2) return new axios.AxiosError().response;
 
   try {
@@ -71,7 +75,7 @@ export const GetCartService = async (it: number) => {
   } catch (err) {
     if (axios.isAxiosError(err)) {
       // Error caused because of no access-token provided
-      if (err.response.status === 403) {
+      if (err.response?.status === 403) {
         await RefreshTokenService();
         return await GetCartService(2); // Try one more time
       }
