@@ -17,6 +17,7 @@ import { Navbar } from './components/navbar/Navbar';
 import { ProductsGrid } from './pages/productsGrid/ProductsGrid';
 import { Login } from './pages/login/Login';
 import { Signup } from './pages/signup/Signup';
+import { ShopCart } from './pages/shopcart/ShopCart';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -32,6 +33,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Routes>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
+          <Route path='/cart' element={<ShopCart />}></Route>
         </Routes>
       </SessionContextProvider>
     </BrowserRouter>
