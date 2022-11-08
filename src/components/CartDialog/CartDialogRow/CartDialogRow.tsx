@@ -2,9 +2,9 @@ import Styles from './CartDialogRow.module.css';
 
 interface IProduct {
   image: string;
-  title: string;
+  name: string;
   units: string;
-  onCart: number;
+  quantity: number;
   price: number;
 }
 
@@ -13,21 +13,20 @@ interface Iprops {
 }
 
 export function CartDialogRow(props: Iprops) {
-  console.table(props.product);
   return (
     <div className={Styles.cartItem}>
-      <img className={Styles.cartItem__image} src={props.product.image} alt={props.product.title} />
+      <img className={Styles.cartItem__image} src={props.product.image} alt={props.product.name} />
       <div className={Styles.cartItem__content}>
-        <h3 className={Styles.cartItem__title}>{props.product.title}</h3>
+        <h3 className={Styles.cartItem__title}>{props.product.name}</h3>
         <span className={Styles.cartItem__amount}>{props.product.units}</span>
         <div className={Styles.cartItem__footer}>
           <div className={Styles.cartItem__inputGroup}>
-            <label htmlFor={props.product.title}>Cantidad</label>
+            <label htmlFor={props.product.name}>Cantidad</label>
             <input
               type='number'
-              name={props.product.title}
-              id={props.product.title}
-              value={props.product.onCart}
+              name={props.product.name}
+              id={props.product.name}
+              value={props.product.quantity}
             ></input>
           </div>
           <span className={Styles.cartItem__price}>{props.product.price}</span>

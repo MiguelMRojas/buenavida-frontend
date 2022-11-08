@@ -1,4 +1,6 @@
 import Styles from './CartDialog.module.css';
+import { useContext } from 'react';
+import { SessionContext } from '../../context/SessionContext';
 import { FiX } from 'react-icons/fi';
 import { CartDialogRow } from './CartDialogRow/CartDialogRow';
 
@@ -6,15 +8,9 @@ interface IProps {
   closeCallback: () => void;
 }
 
-const ExampleProduct = {
-  image: 'https://i.ibb.co/jGc94N2/1.jpg',
-  title: 'Aceite esencial de coco',
-  units: '12ML',
-  onCart: 1,
-  price: 7.99,
-};
-
 export function CartDialog(props: IProps) {
+  const { cart } = useContext(SessionContext);
+
   return (
     <article className={Styles.dialog}>
       <div className={Styles.dialog__header}>
@@ -26,9 +22,9 @@ export function CartDialog(props: IProps) {
         />
       </div>
       <div className={Styles.dialog__body}>
-        <CartDialogRow product={ExampleProduct} />
-        <CartDialogRow product={ExampleProduct} />
-        <CartDialogRow product={ExampleProduct} />
+        {cart.map((item, index) => {
+          return <CartDialogRow product={item} key={index} />;
+        })}
       </div>
       <div className={Styles.dialog__subtotal}>
         <p>Subtotal</p>

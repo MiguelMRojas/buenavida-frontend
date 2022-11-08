@@ -35,3 +35,17 @@ export const WhoamiService = async () => {
     else return new axios.AxiosError().response;
   }
 };
+
+// Get user cart from api
+export const GetCartService = async () => {
+  try {
+    const response = await axios.get(`${GLOBALS.API_HOST}/api/cart`, {
+      withCredentials: true,
+    });
+
+    return response;
+  } catch (err) {
+    if (axios.isAxiosError(err)) return err.response;
+    return new axios.AxiosError().response;
+  }
+};
