@@ -17,3 +17,8 @@
   from = "/*"
   to = "/index.html"
   status = 404
+
+[[redirects]]
+  from = "/cart"
+  to = "/index.html"
+  status = 200

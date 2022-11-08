@@ -39,7 +39,7 @@ export function Navbar() {
               }}
             ></input>
             <FiSearch
-	      className={Styles.navbar__search}
+              className={Styles.navbar__search}
               color={'#21a764'}
               id={Styles.searchIcon}
               onClick={() => {
