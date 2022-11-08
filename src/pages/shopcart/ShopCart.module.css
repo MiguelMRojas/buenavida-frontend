@@ -1,0 +1,21 @@
+.cartContainer {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  min-height: calc(100vh - 72px);
+}
+
+.resumeContainer {
+  box-shadow: 0px 4px 16px var(--box-shadows);
+  min-height: calc(100vh - 72px);
+}
+
+.productsContainer {
+  padding-block-start: 16px;
+  padding-block-end: 70px;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 24px;
+}
