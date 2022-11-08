@@ -1,6 +1,7 @@
 import Styles from './ProductCard.module.css';
 import { Iproduct } from '../../interfaces/interfaces';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
+import { FaHeart } from 'react-icons/fa';
 import { useContext } from 'react';
 import { SessionContext } from '../../context/SessionContext';
 import { toast } from 'react-toastify';
@@ -14,10 +15,10 @@ interface props {
 // producto: producto
 // dialogcallback: funcion para abrir el modal
 export function ProductCard(props: props) {
-  const { addToCart } = useContext(SessionContext);
+  const { addToCart, favorites } = useContext(SessionContext);
 
-  const HandleAddToCart = () => {
-    const wasAdded = addToCart(props.product);
+  const HandleAddToCart = async () => {
+    const wasAdded = await addToCart(props.product);
 
     if (wasAdded) {
       toast.success(`Successfully added ${props.product.name} to the cart`, {
@@ -38,7 +39,11 @@ export function ProductCard(props: props) {
 
   return (
     <article className={Styles.product}>
-      <FiHeart className={Styles.product__heart} color={'red'} size={'1.4em'} />
+      {favorites.some((id) => id === props.product.id) ? (
+        <FaHeart className={Styles.product__heart} color={'red'} size={'1.4em'} />
+      ) : (
+        <FiHeart className={Styles.product__heart} color={'red'} size={'1.4em'} />
+      )}
       <img
         onClick={() => {
           props.CallBack(props.product);

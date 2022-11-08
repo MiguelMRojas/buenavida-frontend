@@ -9,6 +9,7 @@ import {
   GetCartService,
   RemoveFromCartService,
   AddToCartService,
+  GetFavoritesService,
 } from '../services/session.services';
 
 interface Props {
@@ -20,6 +21,7 @@ interface ISessionCTX {
   isLoggedIn: boolean;
   isSessionLoading: boolean;
   cart: Array<ICartItem>;
+  favorites: Array<string>;
   // eslint-disable-next-line no-unused-vars
   login: (response: AxiosResponse) => Promise<void>;
   // eslint-disable-next-line no-unused-vars
@@ -35,6 +37,7 @@ export const SessionContext = createContext<ISessionCTX>({
   isLoggedIn: false,
   isSessionLoading: true,
   cart: [],
+  favorites: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
@@ -51,6 +54,8 @@ export const SessionContext = createContext<ISessionCTX>({
 export const SessionContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState(UserTemplate);
   const [cart, setCart] = useState(Array<ICartItem>);
+  const [favorites, setFavorites] = useState(Array<string>);
+
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -71,10 +76,10 @@ export const SessionContextProvider = ({ children }: Props) => {
     recover();
   }, []);
 
-  // Get user cart onload
+  // Get user cart and favorites on load
   useEffect(() => {
     const getUserCart = async () => {
-      const reply = await GetCartService(1); // First iteration
+      const reply = await GetCartService(1); // First try
       if (!reply?.data) return;
 
       const items = reply.data.products;
@@ -88,7 +93,14 @@ export const SessionContextProvider = ({ children }: Props) => {
       setCart(products);
     };
 
+    const getUserFavorites = async () => {
+      const reply = await GetFavoritesService(1); // First try
+      if (!reply?.data) return;
+      setFavorites(reply.data.favorites);
+    };
+
     getUserCart();
+    getUserFavorites();
   }, [isLoggedIn]);
 
   // Actual value for login function
@@ -140,7 +152,16 @@ export const SessionContextProvider = ({ children }: Props) => {
 
   return (
     <SessionContext.Provider
-      value={{ user, login, isLoggedIn, isSessionLoading, cart, removeFromCart, addToCart }}
+      value={{
+        user,
+        login,
+        isLoggedIn,
+        isSessionLoading,
+        cart,
+        favorites,
+        removeFromCart,
+        addToCart,
+      }}
     >
       {children}
     </SessionContext.Provider>
