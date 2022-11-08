@@ -4,7 +4,7 @@ import { IUser, ICartItem } from '../interfaces/interfaces';
 import { UserTemplate } from '../templates/user';
 
 import { GetProductImageFromEndpointService } from '../services/products.service';
-import { WhoamiService, GetCartService } from '../services/session.services';
+import { WhoamiService, GetCartService, RemoveFromCartService } from '../services/session.services';
 
 interface Props {
   children: ReactNode;
@@ -17,6 +17,8 @@ interface ISessionCTX {
   cart: Array<ICartItem>;
   // eslint-disable-next-line no-unused-vars
   login: (response: AxiosResponse) => Promise<void>;
+  // eslint-disable-next-line no-unused-vars
+  removeFromCart: (id: string) => Promise<boolean>;
 }
 
 // Here we define the default values for each
@@ -28,6 +30,8 @@ export const SessionContext = createContext<ISessionCTX>({
   cart: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  removeFromCart: async function (id: string) {},
 });
 
 // Session provider
@@ -81,8 +85,20 @@ export const SessionContextProvider = ({ children }: Props) => {
     setIsSessionLoading(false);
   };
 
+  // Remove item from cart
+  const removeFromCart = async (id: string) => {
+    const wasDeleted = await RemoveFromCartService(1, id);
+
+    if (wasDeleted) {
+      const newCart = cart.filter((product) => product.id != id);
+      setCart(newCart);
+    }
+  };
+
   return (
-    <SessionContext.Provider value={{ user, login, isLoggedIn, isSessionLoading, cart }}>
+    <SessionContext.Provider
+      value={{ user, login, isLoggedIn, isSessionLoading, cart, removeFromCart }}
+    >
       {children}
     </SessionContext.Provider>
   );

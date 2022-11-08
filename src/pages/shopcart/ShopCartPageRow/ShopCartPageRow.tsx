@@ -1,7 +1,10 @@
 import Styles from './ShopCartPageRow.module.css';
+import { useContext } from 'react';
+import { SessionContext } from '../../../context/SessionContext';
 import { FiTrash2 } from 'react-icons/fi';
 
 interface IProduct {
+  id: string;
   image: string;
   name: string;
   units: string;
@@ -14,6 +17,8 @@ interface IProps {
 }
 
 export function ShopCartPageRow(props: IProps) {
+  const { removeFromCart } = useContext(SessionContext);
+
   return (
     <article className={Styles.product}>
       <img className={Styles.product__image} src={props.product.image} alt={props.product.name} />
@@ -22,9 +27,11 @@ export function ShopCartPageRow(props: IProps) {
         <p className={Styles.product__units}>Unidades: {props.product.units}</p>
       </div>
       <div className={Styles.product__group}>
-        <label className={Styles.product__label} htmlFor={props.product.name}>Cantidad</label>
+        <label className={Styles.product__label} htmlFor={props.product.name}>
+          Cantidad
+        </label>
         <input
-	  className={Styles.product__input}
+          className={Styles.product__input}
           type='number'
           id={props.product.name}
           name={props.product.name}
@@ -32,10 +39,16 @@ export function ShopCartPageRow(props: IProps) {
         />
       </div>
       <div className={Styles.product__col}>
-	<p className={Styles.product__price}>{props.product.price}€</p>
+        <p className={Styles.product__price}>{props.product.price}€</p>
       </div>
       <div className={Styles.product__col}>
-	<FiTrash2 color="red" size={'1.2em'} />	
+        <FiTrash2
+          color='red'
+          size={'1.2em'}
+          onClick={() => {
+            removeFromCart(props.product.id);
+          }}
+        />
       </div>
     </article>
   );

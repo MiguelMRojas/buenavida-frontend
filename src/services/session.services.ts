@@ -52,7 +52,7 @@ export const WhoamiService = async (it: number): Promise<any> => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await WhoamiService(2); // Try one more time
+        return await WhoamiService(it++); // Try one more time
       }
 
       return err.response;
@@ -77,11 +77,37 @@ export const GetCartService = async (it: number): Promise<any> => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await GetCartService(2); // Try one more time
+        return await GetCartService(it++); // Try one more time
       }
 
       return err.response;
     }
     return new axios.AxiosError().response;
+  }
+};
+
+// Remove item from user cart
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const RemoveFromCartService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    const response = await axios.delete(`${GLOBALS.API_HOST}/api/cart/${id}`, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      // Error caused because of no access-token provided
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await GetCartService(it++); // Try one more time
+      }
+      return false;
+    }
+
+    return false;
   }
 };

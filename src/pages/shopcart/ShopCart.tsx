@@ -10,7 +10,7 @@ export function ShopCart() {
     <div className={Styles.cartContainer}>
       <main className={Styles.cart__items}>
         <h1 className={Styles.cart__title}>Esta es tu cesta de la compra</h1>
-	<h2 className={Styles.cart__subtitle}>{cart.length} Products:</h2>
+        <h2 className={Styles.cart__subtitle}>{cart.length} Products:</h2>
         <section className={Styles.cart__grid}>
           {cart.map((item, index) => {
             return <ShopCartPageRow product={item} key={index} />;
