@@ -11,6 +11,14 @@ interface IProps {
 export function CartDialog(props: IProps) {
   const { cart } = useContext(SessionContext);
 
+  const GetCartTotal = () => {
+    const price = cart.reduce((acc, curr) => {
+      return acc + (curr.price * curr.quantity);
+    }, 0)
+
+    return price.toFixed(2);
+  }
+
   return (
     <article className={Styles.dialog}>
       <div className={Styles.dialog__header}>
@@ -26,13 +34,14 @@ export function CartDialog(props: IProps) {
           return <CartDialogRow product={item} key={index} />;
         })}
       </div>
-      <div className={Styles.dialog__subtotal}>
+      {/*<div className={Styles.dialog__subtotal}>
         <p>Subtotal</p>
         <p>38,40</p>
       </div>
+      */}
       <div className={Styles.dialog__total}>
         <p className={Styles.rowText}>Total</p>
-        <p>38,40</p>
+	<p>{GetCartTotal()}</p>
       </div>
       <button className={Styles.dialog__button}>Ir al carrito</button>
       <button className={Styles.dialog__button}>Realizar pedido</button>
