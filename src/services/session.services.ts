@@ -52,7 +52,7 @@ export const WhoamiService = async (it: number): Promise<any> => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await WhoamiService(2); // Try one more time
+        return await WhoamiService(++it); // Try one more time
       }
 
       return err.response;
@@ -62,7 +62,6 @@ export const WhoamiService = async (it: number): Promise<any> => {
 };
 
 // Get user cart from api
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const GetCartService = async (it: number): Promise<any> => {
   if (it > 2) return new axios.AxiosError().response;
@@ -77,11 +76,128 @@ export const GetCartService = async (it: number): Promise<any> => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await GetCartService(2); // Try one more time
+        return await GetCartService(++it); // Try one more time
       }
 
       return err.response;
     }
     return new axios.AxiosError().response;
+  }
+};
+
+// Ger user favorites on load
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const GetFavoritesService = async (it: number): Promise<any> => {
+  if (it > 2) return new axios.AxiosError().response;
+
+  try {
+    const response = await axios.get(`${GLOBALS.API_HOST}/api/user/favorites/list`, {
+      withCredentials: true,
+    });
+
+    return response;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      // Error caused because of no access-token provided
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await GetFavoritesService(++it); // Try one more time
+      }
+
+      return err.response;
+    }
+    return new axios.AxiosError().response;
+  }
+};
+
+// Add to user cart
+export const AddToCartService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    const payload = { id };
+    const response = await axios.post(`${GLOBALS.API_HOST}/api/cart`, payload, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await AddToCartService(++it, id);
+      }
+      return false;
+    }
+    return false;
+  }
+};
+
+// Add to favorites
+export const AddToFavoritesService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    const payload = { id };
+    const response = await axios.post(`${GLOBALS.API_HOST}/api/user/favorites`, payload, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await AddToFavoritesService(++it, id);
+      }
+      return false;
+    }
+    return false;
+  }
+};
+
+// Remove item from user cart
+export const RemoveFromCartService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    const response = await axios.delete(`${GLOBALS.API_HOST}/api/cart/${id}`, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      // Error caused because of no access-token provided
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await RemoveFromCartService(++it, id); // Try one more time
+      }
+      return false;
+    }
+
+    return false;
+  }
+};
+
+// Remove from favorites
+export const RemoveFromFavoritesService = async (it: number, id: string): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    const response = await axios.delete(`${GLOBALS.API_HOST}/api/user/favorites/${id}`, {
+      withCredentials: true,
+    });
+
+    return response.status === 200 ? true : false;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await RemoveFromFavoritesService(++it, id);
+      }
+      return false;
+    }
+    return false;
   }
 };

@@ -4,7 +4,15 @@ import { IUser, ICartItem } from '../interfaces/interfaces';
 import { UserTemplate } from '../templates/user';
 
 import { GetProductImageFromEndpointService } from '../services/products.service';
-import { WhoamiService, GetCartService } from '../services/session.services';
+import {
+  WhoamiService,
+  GetCartService,
+  RemoveFromCartService,
+  AddToCartService,
+  GetFavoritesService,
+  RemoveFromFavoritesService,
+  AddToFavoritesService,
+} from '../services/session.services';
 
 interface Props {
   children: ReactNode;
@@ -15,8 +23,17 @@ interface ISessionCTX {
   isLoggedIn: boolean;
   isSessionLoading: boolean;
   cart: Array<ICartItem>;
+  favorites: Array<string>;
   // eslint-disable-next-line no-unused-vars
   login: (response: AxiosResponse) => Promise<void>;
+  // eslint-disable-next-line no-unused-vars
+  removeFromCart: (id: string) => Promise<boolean>;
+  // eslint-disable-next-line no-unused-vars
+  addToCart: (item: ICartItem) => Promise<boolean>;
+  // eslint-disable-next-line no-unused-vars
+  removeFromFavorites: (id: string) => Promise<boolean>;
+  // eslint-disable-next-line no-unused-vars
+  addToFavorites: (id: string) => Promise<boolean>;
 }
 
 // Here we define the default values for each
@@ -26,14 +43,33 @@ export const SessionContext = createContext<ISessionCTX>({
   isLoggedIn: false,
   isSessionLoading: true,
   cart: [],
+  favorites: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  removeFromCart: async function (id: string) {
+    return true;
+  },
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  addToCart: async function (item: ICartItem) {
+    return true;
+  },
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  removeFromFavorites: async function (id: string) {
+    return true;
+  },
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  addToFavorites: async function (id: string) {
+    return true;
+  },
 });
 
 // Session provider
 export const SessionContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState(UserTemplate);
   const [cart, setCart] = useState(Array<ICartItem>);
+  const [favorites, setFavorites] = useState(Array<string>);
+
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -54,10 +90,10 @@ export const SessionContextProvider = ({ children }: Props) => {
     recover();
   }, []);
 
-  // Get user cart onload
+  // Get user cart and favorites on load
   useEffect(() => {
     const getUserCart = async () => {
-      const reply = await GetCartService(1); // First iteration
+      const reply = await GetCartService(1); // First try
       if (!reply?.data) return;
 
       const items = reply.data.products;
@@ -71,18 +107,104 @@ export const SessionContextProvider = ({ children }: Props) => {
       setCart(products);
     };
 
-    getUserCart();
-  }, [user]);
+    const getUserFavorites = async () => {
+      const reply = await GetFavoritesService(1); // First try
+      if (!reply?.data) return;
+      setFavorites(reply.data.favorites);
+    };
 
-  // Actyual value for login function
+    getUserCart();
+    getUserFavorites();
+  }, [isLoggedIn]);
+
+  // Actual value for login function
   const login = async (response: AxiosResponse) => {
     setUser(response.data.user);
     setIsLoggedIn(true);
     setIsSessionLoading(false);
   };
 
+  // Remove item from cart
+  const removeFromCart = async (id: string) => {
+    const wasDeleted = await RemoveFromCartService(1, id);
+
+    if (wasDeleted) {
+      const newCart = cart.filter((product) => product.id != id);
+      setCart(newCart);
+      return true;
+    }
+
+    return false;
+  };
+
+  // Add item to cart
+  const addToCart = async (item: ICartItem) => {
+    const wasAdded = await AddToCartService(1, item.id);
+
+    if (wasAdded) {
+      const exists = cart.some((product) => product.id === item.id);
+
+      if (exists) {
+        const newCart = cart.map((product) => {
+          if (product.id === item.id) {
+            return { ...product, quantity: product.quantity + 1 };
+          } else {
+            return product;
+          }
+        });
+
+        setCart(newCart);
+      } else {
+        setCart([...cart, { ...item, quantity: 1 }]);
+      }
+
+      return true;
+    }
+
+    return false;
+  };
+
+  // Remove item from favorites
+  const removeFromFavorites = async (id: string) => {
+    const wasDeleted = await RemoveFromFavoritesService(1, id);
+    console.log(wasDeleted);
+
+    if (wasDeleted) {
+      const newFavorites = favorites.filter((fid) => fid !== id);
+      setFavorites(newFavorites);
+      return true;
+    }
+
+    return false;
+  };
+
+  // Add item to favorites
+  const addToFavorites = async (id: string) => {
+    const wasAdded = await AddToFavoritesService(1, id);
+
+    if (wasAdded) {
+      setFavorites([...favorites, id]);
+      return true;
+    }
+
+    return false;
+  };
+
   return (
-    <SessionContext.Provider value={{ user, login, isLoggedIn, isSessionLoading, cart }}>
+    <SessionContext.Provider
+      value={{
+        user,
+        login,
+        isLoggedIn,
+        isSessionLoading,
+        cart,
+        favorites,
+        removeFromCart,
+        addToCart,
+        removeFromFavorites,
+        addToFavorites,
+      }}
+    >
       {children}
     </SessionContext.Provider>
   );

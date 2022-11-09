@@ -11,6 +11,7 @@ export interface Iproduct {
 }
 
 export interface ICartItem {
+  id: string;
   name: string;
   units: string;
   quantity: number;
