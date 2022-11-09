@@ -7,6 +7,7 @@ import { GetProductImageFromEndpointService } from '../../services/products.serv
 import { Iproduct } from '../../interfaces/interfaces';
 import { ProductCard } from '../../components/productCard/ProductCard';
 import { ModalProduct } from '../../components/modalproducts/ModalProducts';
+
 import { toast } from 'react-toastify';
 
 export function Favorites() {
