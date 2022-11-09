@@ -1,11 +1,30 @@
 import Styles from './ShopCart.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShopCartPageRow } from './ShopCartPageRow/ShopCartPageRow';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { SessionContext } from '../../context/SessionContext';
 
+import { toast } from 'react-toastify';
+
 export function ShopCart() {
-  const { cart } = useContext(SessionContext);
+  const { isSessionLoading, isLoggedIn, cart, makeOrder } = useContext(SessionContext);
+  const navigate = useNavigate();
+
+  // Redirect to home if is not logged in
+  useEffect(() => {
+    if (!isSessionLoading && !isLoggedIn) {
+      // Show an information alert
+      toast.warn('Please, log in to manage your cart', {
+        position: 'top-right',
+        autoClose: 2500,
+        pauseOnHover: true,
+        theme: 'light',
+      });
+
+      // Redirect to heme because there is an active session
+      navigate('/');
+    }
+  }, [isLoggedIn]);
 
   const GetCartTotal = () => {
     const price = cart.reduce((acc, curr) => {
@@ -47,7 +66,47 @@ export function ShopCart() {
           </div>
           <p className={Styles.iva}>(Iva incluído)</p>
         </div>
-        <button className={Styles.dialog__button}>Realizar pedido</button>
+        <button
+          className={Styles.dialog__button}
+          onClick={() => {
+            const process = async () => {
+              const done = await makeOrder();
+
+              if (done) {
+                toast.success('Order was created successfully', {
+                  position: 'top-right',
+                  autoClose: 2500,
+                  pauseOnHover: true,
+                  theme: 'light',
+                });
+              } else {
+                toast.error('Unable to create a new order. Try again.', {
+                  position: 'top-right',
+                  autoClose: 2500,
+                  pauseOnHover: true,
+                  theme: 'light',
+                });
+              }
+            };
+
+            // Use the function if there are something in the cart
+            if (cart.length > 0) {
+              process();
+            } else {
+              toast.warn(
+                'Your cart is empty, please, add some product before trying to create a new order',
+                {
+                  position: 'top-right',
+                  autoClose: 2500,
+                  pauseOnHover: true,
+                  theme: 'light',
+                },
+              );
+            }
+          }}
+        >
+          Realizar pedido
+        </button>
         <Link className={Styles.pregunta} to='/'>
           Añadir más productos al carrito
         </Link>
