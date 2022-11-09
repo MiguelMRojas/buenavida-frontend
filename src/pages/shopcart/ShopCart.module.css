@@ -1,0 +1,85 @@
+.cartContainer {
+  display: grid;
+  grid-template-columns: 1fr 540px;
+  min-height: calc(100vh - 72px);
+}
+
+.resumeContainer {
+  box-shadow: 0px 4px 16px var(--box-shadows);
+  min-height: calc(100vh - 72px);
+  padding: 8px 24px;
+}
+
+.cart__items {
+  padding: 8px 16px;
+  height: max-content;
+}
+
+.cart__title {
+  text-align: center;
+  margin: 16px;
+  text-transform: uppercase;
+  color: var(--accented-green);
+}
+
+.cart__subtitle {
+  color: var(--texts);
+}
+
+.cart__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.containerprice {
+  margin: 0px;
+  padding: 50px;
+}
+
+.ResumeTitle {
+  text-align: center;
+  margin: 16px;
+  text-transform: uppercase;
+  color: var(#4e4e4e);
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  color: var(--texts-light);
+  margin-block: 10px;
+  font-size: var(--sm);
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-block: 10px;
+  font-size: var(--sm);
+  font-weight: bold;
+  color: var(--texts);
+}
+
+.iva {
+  font-size: var(--sm);
+  color: var(--texts-light);
+}
+
+.dialog__button {
+  display: block;
+  width: 100%;
+  margin-block: 16px 12px;
+  font-size: var(--sm);
+  background-color: var(--accented-green);
+  padding: 0.8em;
+  outline: none;
+  color: white;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.pregunta {
+  color: var(--accented-green);
+}
