@@ -48,7 +48,7 @@ export function Navbar() {
           </Link>
         </li>
         <li>
-          <Link className={Styles.navigation__floatItem} to='#'>
+          <Link className={Styles.navigation__floatItem} to='/favorites'>
             <FiHeart color={'#2f2f2f'} />
             <span>Mis favoritos</span>
           </Link>
@@ -131,7 +131,7 @@ export function Navbar() {
             </div>
             <ul className={Styles.navigation}>
               <li>
-                <NavLink to='/' className={Styles.navigation__item}>
+                <NavLink to='/favorites' className={Styles.navigation__item}>
                   <FiHeart color={'#21a764'} />
                   <span>Favorites</span>
                 </NavLink>
