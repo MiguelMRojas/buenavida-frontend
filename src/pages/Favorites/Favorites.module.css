@@ -1,0 +1,11 @@
+/*Cards container*/
+.products {
+  padding-block-start: 16px;
+  padding-block-end: 70px;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 24px;
+}

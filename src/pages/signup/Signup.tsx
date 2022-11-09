@@ -23,7 +23,7 @@ export function Signup() {
         theme: 'light',
       });
     }
-  }, [isLoggedIn]);
+  }, [isSessionLoading, isLoggedIn]);
 
   const HandleSignupSubmit = async (payload: ISignupPayload) => {
     // Get response from back-end

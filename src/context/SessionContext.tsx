@@ -48,7 +48,7 @@ interface ISessionCTX {
 export const SessionContext = createContext<ISessionCTX>({
   user: UserTemplate,
   isLoggedIn: false,
-  isSessionLoading: true,
+  isSessionLoading: false,
   cart: [],
   favorites: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
@@ -85,21 +85,28 @@ export const SessionContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState(UserTemplate);
   const [cart, setCart] = useState(Array<ICartItem>);
   const [favorites, setFavorites] = useState(Array<string>);
-  const [isSessionLoading, setIsSessionLoading] = useState(true);
+  const [isSessionLoading, setIsSessionLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Try to get the user information on reload
   // or new start
   useEffect(() => {
     const recover = async () => {
+      setIsSessionLoading(true);
+
       const reply = await WhoamiService(1); // First iteration
-      if (!reply) return;
+
+      if (!reply) {
+        setIsSessionLoading(false);
+        return;
+      }
 
       if (reply.status === 200) {
         setUser(reply.data.user);
-        setIsSessionLoading(false);
         setIsLoggedIn(true);
       }
+
+      setIsSessionLoading(false);
     };
 
     recover();
@@ -137,6 +144,7 @@ export const SessionContextProvider = ({ children }: Props) => {
 
   // Actual value for login function
   const login = async (response: AxiosResponse) => {
+    setIsSessionLoading(true);
     setUser(response.data.user);
     setIsLoggedIn(true);
     setIsSessionLoading(false);

@@ -26,7 +26,7 @@ export function Login() {
       // Redirect to heme because there is an active session
       navigate('/');
     }
-  }, [isLoggedIn]);
+  }, [isSessionLoading, isLoggedIn]);
 
   // Prepare callback
   const HandleLoginSubmit = async (payload: ILoginPayload) => {
