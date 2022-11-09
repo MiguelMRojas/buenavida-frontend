@@ -73,6 +73,20 @@ export function DynamicForm(props: Props) {
   // and use the callback
   const handleSubmit = () => {
     let allFieldsOk = true;
+    const isSignup = props.fields.some((field) => field.name === 'password2');
+
+    if (isSignup) {
+      if (values['password'] != values['password2']) {
+        toast.error('Passords are not equals', {
+          position: 'top-right',
+          autoClose: 2500,
+          pauseOnHover: true,
+          theme: 'light',
+        });
+
+	return;
+      }
+    }
 
     if (props.rules) {
       props.rules.forEach((rule) => {
