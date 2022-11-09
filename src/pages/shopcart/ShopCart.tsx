@@ -1,4 +1,5 @@
 import Styles from './ShopCart.module.css';
+import { Link } from 'react-router-dom';
 import { ShopCartPageRow } from './ShopCartPageRow/ShopCartPageRow';
 import { useContext } from 'react';
 import { SessionContext } from '../../context/SessionContext';
@@ -47,7 +48,9 @@ export function ShopCart() {
           <p className={Styles.iva}>(Iva incluído)</p>
         </div>
         <button className={Styles.dialog__button}>Realizar pedido</button>
-        <a href="" className={Styles.pregunta}>¿Quieres añadir más productos?</a>
+        <Link className={Styles.pregunta} to='/'>
+          Añadir más productos al carrito
+        </Link>
       </aside>
     </div>
   );
