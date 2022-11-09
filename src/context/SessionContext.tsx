@@ -6,6 +6,7 @@ import { UserTemplate } from '../templates/user';
 import { GetProductImageFromEndpointService } from '../services/products.service';
 import {
   WhoamiService,
+  LogoutService,
   GetCartService,
   RemoveFromCartService,
   AddToCartService,
@@ -26,6 +27,7 @@ interface ISessionCTX {
   favorites: Array<string>;
   // eslint-disable-next-line no-unused-vars
   login: (response: AxiosResponse) => Promise<void>;
+  logout: () => Promise<boolean>;
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => Promise<boolean>;
   // eslint-disable-next-line no-unused-vars
@@ -46,6 +48,10 @@ export const SessionContext = createContext<ISessionCTX>({
   favorites: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
+  // @typescript-eslint/no-empty-function
+  logout: async function () {
+    return true;
+  },
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   removeFromCart: async function (id: string) {
     return true;
@@ -69,7 +75,6 @@ export const SessionContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState(UserTemplate);
   const [cart, setCart] = useState(Array<ICartItem>);
   const [favorites, setFavorites] = useState(Array<string>);
-
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -113,9 +118,10 @@ export const SessionContextProvider = ({ children }: Props) => {
       setFavorites(reply.data.favorites);
     };
 
-    if(isLoggedIn){ // Only get when the user have an active session
-     getUserCart();
-     getUserFavorites();
+    if (isLoggedIn) {
+      // Only get when the user have an active session
+      getUserCart();
+      getUserFavorites();
     }
   }, [isLoggedIn]);
 
@@ -137,6 +143,21 @@ export const SessionContextProvider = ({ children }: Props) => {
     }
 
     return false;
+  };
+
+  // Logout
+  const logout = async () => {
+    setIsSessionLoading(true);
+    const wasSessionClosed = await LogoutService(1);
+
+    if (wasSessionClosed) {
+      setIsLoggedIn(false);
+      setUser(UserTemplate);
+      setCart([]);
+      setFavorites([]);
+    }
+
+    setIsSessionLoading(false);
   };
 
   // Add item to cart
@@ -197,6 +218,7 @@ export const SessionContextProvider = ({ children }: Props) => {
       value={{
         user,
         login,
+        logout,
         isLoggedIn,
         isSessionLoading,
         cart,

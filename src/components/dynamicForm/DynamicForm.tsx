@@ -84,7 +84,7 @@ export function DynamicForm(props: Props) {
           theme: 'light',
         });
 
-	return;
+        return;
       }
     }
 
