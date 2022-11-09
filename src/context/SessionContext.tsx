@@ -51,7 +51,7 @@ export const SessionContext = createContext<ISessionCTX>({
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
   // @typescript-eslint/no-empty-function
-  logout: async function () {  },
+  logout: async function () {},
   // eslint-disable-next-line no-unused-vars
   removeFromCart: async function (id: string) {
     return true;

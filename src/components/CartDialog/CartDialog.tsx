@@ -62,7 +62,7 @@ export function CartDialog(props: IProps) {
             });
 
             navigate('/login');
-	    return;
+            return;
           }
 
           // Function to create an order

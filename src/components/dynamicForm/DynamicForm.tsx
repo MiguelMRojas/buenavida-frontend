@@ -29,9 +29,14 @@ interface Props {
   rules?: Array<Rule>;
 }
 
+type TValues = {
+  [key: string]: string;
+};
+
 export function DynamicForm(props: Props) {
   // Store form current values
-  const [values, setValues] = useState({});
+  const init: TValues = {};
+  const [values, setValues] = useState(init);
 
   // Update form values state when some input change
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
