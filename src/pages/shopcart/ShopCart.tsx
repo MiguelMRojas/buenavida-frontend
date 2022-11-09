@@ -24,7 +24,7 @@ export function ShopCart() {
       // Redirect to heme because there is an active session
       navigate('/');
     }
-  }, [isLoggedIn]);
+  }, [isSessionLoading, isLoggedIn]);
 
   const GetCartTotal = () => {
     const price = cart.reduce((acc, curr) => {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GLOBALS } from '../config/config';
 import { ISignupPayload } from '../interfaces/interfaces.services';
+import { RefreshTokenService } from './session.services';
 
 // Create a new user on database
 export const SignupService = async (payload: ISignupPayload) => {
@@ -15,7 +16,8 @@ export const SignupService = async (payload: ISignupPayload) => {
 };
 
 // Get detailed favorites (For /favorites route)
-export const GetDetailedFavoritesService = async (it: number) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const GetDetailedFavoritesService = async (it: number): Promise<any> => {
   if (it > 2) return new axios.AxiosError().response;
 
   try {
@@ -29,7 +31,7 @@ export const GetDetailedFavoritesService = async (it: number) => {
       // Error caused because of no access-token provided
       if (err.response?.status === 403) {
         await RefreshTokenService();
-        return await GetDetailedFavorites(++it); // Try one more time
+        return await GetDetailedFavoritesService(++it); // Try one more time
       }
 
       return err.response;
