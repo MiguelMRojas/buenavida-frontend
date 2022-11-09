@@ -113,8 +113,10 @@ export const SessionContextProvider = ({ children }: Props) => {
       setFavorites(reply.data.favorites);
     };
 
-    getUserCart();
-    getUserFavorites();
+    if(isLoggedIn){ // Only get when the user have an active session
+     getUserCart();
+     getUserFavorites();
+    }
   }, [isLoggedIn]);
 
   // Actual value for login function

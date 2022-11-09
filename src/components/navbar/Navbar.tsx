@@ -50,18 +50,6 @@ export function Navbar() {
             <span>Mi Carrito</span>
           </Link>
         </li>
-        <li>
-          <Link className={Styles.navigation__floatItem} to='/login'>
-            <FiLock color={'#2f2f2f'} />
-            <span>Entrar</span>
-          </Link>
-        </li>
-        <li>
-          <Link className={Styles.navigation__floatItem} to='/signup'>
-            <FiUserCheck color={'#2f2f2f'} />
-            <span>Crear cuenta</span>
-          </Link>
-        </li>
       </>
     );
   };
