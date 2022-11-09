@@ -20,6 +20,28 @@ export const LoginService = async (payload: ILoginPayload) => {
   }
 };
 
+// Get expired tokens
+export const LogoutService = async (it: number): Promise<boolean> => {
+  if (it > 2) return false;
+
+  try {
+    await axios.delete(`${GLOBALS.API_HOST}/api/session/logout`, {
+      withCredentials: true,
+    });
+    return true;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 403) {
+        await RefreshTokenService();
+        return await LogoutService(++it);
+      }
+
+      return false;
+    }
+    return false;
+  }
+};
+
 // Get a new access-token
 export const RefreshTokenService = async (): Promise<boolean> => {
   try {

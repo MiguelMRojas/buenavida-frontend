@@ -29,9 +29,14 @@ interface Props {
   rules?: Array<Rule>;
 }
 
+type TValues = {
+  [key: string]: string;
+};
+
 export function DynamicForm(props: Props) {
   // Store form current values
-  const [values, setValues] = useState({});
+  const init: TValues = {};
+  const [values, setValues] = useState(init);
 
   // Update form values state when some input change
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +78,20 @@ export function DynamicForm(props: Props) {
   // and use the callback
   const handleSubmit = () => {
     let allFieldsOk = true;
+    const isSignup = props.fields.some((field) => field.name === 'password2');
+
+    if (isSignup) {
+      if (values['password'] != values['password2']) {
+        toast.error('Passords are not equals', {
+          position: 'top-right',
+          autoClose: 2500,
+          pauseOnHover: true,
+          theme: 'light',
+        });
+
+        return;
+      }
+    }
 
     if (props.rules) {
       props.rules.forEach((rule) => {

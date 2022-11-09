@@ -12,7 +12,7 @@ export function Login() {
   const { login, isLoggedIn, isSessionLoading } = useContext(SessionContext);
   const navigate = useNavigate();
 
-  // Redirect to heme if is logged in
+  // Redirect to home if is logged in
   useEffect(() => {
     if (!isSessionLoading && isLoggedIn) {
       // Show an information alert

@@ -1,6 +1,9 @@
+import { useContext } from 'react';
+import { SessionContext } from '../../../context/SessionContext';
 import Styles from './CartDialogRow.module.css';
 
 interface IProduct {
+  id: string;
   image: string;
   name: string;
   units: string;
@@ -13,6 +16,8 @@ interface Iprops {
 }
 
 export function CartDialogRow(props: Iprops) {
+  const { updateCart } = useContext(SessionContext);
+
   return (
     <div className={Styles.cartItem}>
       <img className={Styles.cartItem__image} src={props.product.image} alt={props.product.name} />
@@ -27,6 +32,11 @@ export function CartDialogRow(props: Iprops) {
               name={props.product.name}
               id={props.product.name}
               value={props.product.quantity}
+              onChange={(e) => {
+                // Update value on session
+                const value = e.target.value;
+                updateCart({ id: props.product.id, amount: value });
+              }}
             ></input>
           </div>
           <span className={Styles.cartItem__price}>{props.product.price}</span>

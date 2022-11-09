@@ -1,8 +1,16 @@
 import Styles from './Navbar.module.css';
 import { useContext, ChangeEvent, useRef, useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
-import { FiHeart, FiUser, FiShoppingCart, FiSearch, FiLock, FiUserCheck } from 'react-icons/fi';
+import {
+  FiHeart,
+  FiUser,
+  FiShoppingCart,
+  FiSearch,
+  FiLock,
+  FiUserCheck,
+  FiUserX,
+} from 'react-icons/fi';
 import { FilterContext } from '../../context/FilterContext';
 import { CartDialog } from '../CartDialog/CartDialog';
 
@@ -10,9 +18,10 @@ export function Navbar() {
   // Fucntion from the provider
   const { setCriteria, filterProducts } = useContext(FilterContext);
   const [openCartDialog, setOpenCartDialog] = useState(false);
+  const { isLoggedIn, logout } = useContext(SessionContext);
 
-  const { isLoggedIn } = useContext(SessionContext);
   const floatingOptions = useRef<HTMLUListElement | null>(null);
+  const navigate = useNavigate();
 
   // Update provider's criteria
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,34 +42,33 @@ export function Navbar() {
     return (
       <>
         <li>
-          <Link className={Styles.navigation__floatItem} to='/'>
+          <Link className={Styles.navigation__floatItem} to='#'>
             <FiUser color={'#2f2f2f'} />
             <span>Mi Cuenta</span>
           </Link>
         </li>
         <li>
-          <Link className={Styles.navigation__floatItem} to='/'>
+          <Link className={Styles.navigation__floatItem} to='#'>
             <FiHeart color={'#2f2f2f'} />
             <span>Mis favoritos</span>
           </Link>
         </li>
         <li>
-          <Link className={Styles.navigation__floatItem} to='/'>
+          <Link className={Styles.navigation__floatItem} to='/cart'>
             <FiShoppingCart color={'#2f2f2f'} />
             <span>Mi Carrito</span>
           </Link>
         </li>
         <li>
-          <Link className={Styles.navigation__floatItem} to='/login'>
-            <FiLock color={'#2f2f2f'} />
-            <span>Entrar</span>
-          </Link>
-        </li>
-        <li>
-          <Link className={Styles.navigation__floatItem} to='/signup'>
-            <FiUserCheck color={'#2f2f2f'} />
-            <span>Crear cuenta</span>
-          </Link>
+          <div
+            className={Styles.navigation__floatItem}
+            onClick={() => {
+              logout();
+            }}
+          >
+            <FiUserX color={'#2f2f2f'} />
+            <span>Cerrar sesión</span>
+          </div>
         </li>
       </>
     );
@@ -107,6 +115,7 @@ export function Navbar() {
                   if (e.key == 'Enter') {
                     console.log('Filtering because of enter key pressed');
                     filterProducts();
+                    navigate('/');
                   }
                 }}
               ></input>
@@ -116,6 +125,7 @@ export function Navbar() {
                 id={Styles.searchIcon}
                 onClick={() => {
                   filterProducts();
+                  navigate('/');
                 }}
               />
             </div>
