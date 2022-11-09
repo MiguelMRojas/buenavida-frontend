@@ -1,6 +1,6 @@
 import Styles from './Navbar.module.css';
 import { useContext, ChangeEvent, useRef, useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
 import {
   FiHeart,
@@ -18,9 +18,10 @@ export function Navbar() {
   // Fucntion from the provider
   const { setCriteria, filterProducts } = useContext(FilterContext);
   const [openCartDialog, setOpenCartDialog] = useState(false);
-
   const { isLoggedIn, logout } = useContext(SessionContext);
+
   const floatingOptions = useRef<HTMLUListElement | null>(null);
+  const navigate = useNavigate();
 
   // Update provider's criteria
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -114,6 +115,7 @@ export function Navbar() {
                   if (e.key == 'Enter') {
                     console.log('Filtering because of enter key pressed');
                     filterProducts();
+                    navigate('/');
                   }
                 }}
               ></input>
@@ -123,6 +125,7 @@ export function Navbar() {
                 id={Styles.searchIcon}
                 onClick={() => {
                   filterProducts();
+                  navigate('/');
                 }}
               />
             </div>
