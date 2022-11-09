@@ -55,6 +55,8 @@
 }
 
 .dialog__button {
+  text-decoration: none;
+  text-align: center;
   display: block;
   width: 100%;
   margin-block: 16px 12px;

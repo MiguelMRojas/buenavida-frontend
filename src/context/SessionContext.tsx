@@ -3,6 +3,7 @@ import { createContext, useState, useEffect, ReactNode } from 'react';
 import { IUser, ICartItem } from '../interfaces/interfaces';
 import { UserTemplate } from '../templates/user';
 
+import { OrderService } from '../services/shop.services';
 import { GetProductImageFromEndpointService } from '../services/products.service';
 import {
   WhoamiService,
@@ -27,7 +28,7 @@ interface ISessionCTX {
   favorites: Array<string>;
   // eslint-disable-next-line no-unused-vars
   login: (response: AxiosResponse) => Promise<void>;
-  logout: () => Promise<boolean>;
+  logout: () => Promise<void>;
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => Promise<boolean>;
   // eslint-disable-next-line no-unused-vars
@@ -36,6 +37,7 @@ interface ISessionCTX {
   removeFromFavorites: (id: string) => Promise<boolean>;
   // eslint-disable-next-line no-unused-vars
   addToFavorites: (id: string) => Promise<boolean>;
+  makeOrder: () => Promise<boolean>;
 }
 
 // Here we define the default values for each
@@ -49,23 +51,24 @@ export const SessionContext = createContext<ISessionCTX>({
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
   // @typescript-eslint/no-empty-function
-  logout: async function () {
-    return true;
-  },
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  logout: async function () {  },
+  // eslint-disable-next-line no-unused-vars
   removeFromCart: async function (id: string) {
     return true;
   },
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  // eslint-disable-next-line no-unused-vars
   addToCart: async function (item: ICartItem) {
     return true;
   },
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  // eslint-disable-next-line no-unused-vars,
   removeFromFavorites: async function (id: string) {
     return true;
   },
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
+  // eslint-disable-next-line no-unused-vars,
   addToFavorites: async function (id: string) {
+    return true;
+  },
+  makeOrder: async function () {
     return true;
   },
 });
@@ -213,6 +216,18 @@ export const SessionContextProvider = ({ children }: Props) => {
     return false;
   };
 
+  // Create order from cart
+  const makeOrder = async () => {
+    const wasCreated = await OrderService(1);
+
+    if (wasCreated) {
+      setCart([]); // Empty cart
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <SessionContext.Provider
       value={{
@@ -227,6 +242,7 @@ export const SessionContextProvider = ({ children }: Props) => {
         addToCart,
         removeFromFavorites,
         addToFavorites,
+        makeOrder,
       }}
     >
       {children}
