@@ -18,7 +18,7 @@ interface IProps {
 }
 
 export function ShopCartPageRow(props: IProps) {
-  const { removeFromCart } = useContext(SessionContext);
+  const { removeFromCart, updateCart } = useContext(SessionContext);
 
   const HandleRemoveFromCart = async () => {
     const wasDeleted = await removeFromCart(props.product.id);
@@ -57,6 +57,11 @@ export function ShopCartPageRow(props: IProps) {
           id={props.product.name}
           name={props.product.name}
           value={props.product.quantity}
+          onChange={(e) => {
+            // Update value on session
+            const value = e.target.value;
+            updateCart({ id: props.product.id, amount: value });
+          }}
         />
       </div>
       <div className={Styles.product__col}>

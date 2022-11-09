@@ -1,9 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { IUser, ICartItem } from '../interfaces/interfaces';
+import { IUpdateCartPayload } from '../interfaces/interfaces.services';
 import { UserTemplate } from '../templates/user';
 
-import { OrderService } from '../services/shop.services';
+import { OrderService, UpdateCartItemAmount } from '../services/shop.services';
 import { GetProductImageFromEndpointService } from '../services/products.service';
 import {
   WhoamiService,
@@ -34,6 +35,8 @@ interface ISessionCTX {
   // eslint-disable-next-line no-unused-vars
   addToCart: (item: ICartItem) => Promise<boolean>;
   // eslint-disable-next-line no-unused-vars
+  updateCart: (payload: IUpdateCartPayload) => Promise<boolean>;
+  // eslint-disable-next-line no-unused-vars
   removeFromFavorites: (id: string) => Promise<boolean>;
   // eslint-disable-next-line no-unused-vars
   addToFavorites: (id: string) => Promise<boolean>;
@@ -50,7 +53,7 @@ export const SessionContext = createContext<ISessionCTX>({
   favorites: [],
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-empty-function
   login: async function (payload: AxiosResponse) {},
-  // @typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   logout: async function () {},
   // eslint-disable-next-line no-unused-vars
   removeFromCart: async function (id: string) {
@@ -58,6 +61,10 @@ export const SessionContext = createContext<ISessionCTX>({
   },
   // eslint-disable-next-line no-unused-vars
   addToCart: async function (item: ICartItem) {
+    return true;
+  },
+  // eslint-disable-next-line no-unused-vars
+  updateCart: async function (payload: IUpdateCartPayload) {
     return true;
   },
   // eslint-disable-next-line no-unused-vars,
@@ -141,6 +148,29 @@ export const SessionContextProvider = ({ children }: Props) => {
 
     if (wasDeleted) {
       const newCart = cart.filter((product) => product.id != id);
+      setCart(newCart);
+      return true;
+    }
+
+    return false;
+  };
+
+  // Update amount for some item on cart
+  const updateCart = async (payload: IUpdateCartPayload) => {
+    if (payload.amount === '') return false;
+
+    const newCart = cart.map((product) => {
+      if (product.id === payload.id) {
+        return { ...product, quantity: parseInt(payload.amount) };
+      } else {
+        return product;
+      }
+    });
+
+    // Update on database
+    const wasUpdated = await UpdateCartItemAmount(1, payload);
+
+    if (wasUpdated) {
       setCart(newCart);
       return true;
     }
@@ -240,6 +270,7 @@ export const SessionContextProvider = ({ children }: Props) => {
         favorites,
         removeFromCart,
         addToCart,
+        updateCart,
         removeFromFavorites,
         addToFavorites,
         makeOrder,

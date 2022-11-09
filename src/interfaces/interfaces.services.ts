@@ -9,3 +9,8 @@ export interface ISignupPayload {
   email: string;
   password: string;
 }
+
+export interface IUpdateCartPayload {
+  id: string;
+  amount: string;
+}
