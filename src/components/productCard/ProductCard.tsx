@@ -3,6 +3,7 @@ import { Iproduct, ICartItem } from '../../interfaces/interfaces';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../../context/SessionContext';
 import { toast } from 'react-toastify';
 
@@ -15,7 +16,10 @@ interface props {
 // producto: producto
 // dialogcallback: funcion para abrir el modal
 export function ProductCard(props: props) {
-  const { addToCart, favorites, addToFavorites, removeFromFavorites } = useContext(SessionContext);
+  const { isLoggedIn, addToCart, favorites, addToFavorites, removeFromFavorites } =
+    useContext(SessionContext);
+
+  const navigate = useNavigate();
 
   const HandleAddToCart = async () => {
     const CartItem: ICartItem = {
@@ -63,7 +67,18 @@ export function ProductCard(props: props) {
           color={'red'}
           size={'1.4em'}
           onClick={() => {
-            addToFavorites(props.product.id);
+            if (isLoggedIn) {
+              addToFavorites(props.product.id);
+            } else {
+              navigate('/login');
+
+              toast.warn('Log in to manage your favorites', {
+                position: 'top-right',
+                autoClose: 2500,
+                pauseOnHover: true,
+                theme: 'light',
+              });
+            }
           }}
         />
       )}
@@ -83,7 +98,18 @@ export function ProductCard(props: props) {
       <button
         className={Styles.product__button}
         onClick={() => {
-          HandleAddToCart();
+          if (isLoggedIn) {
+            HandleAddToCart();
+          } else {
+            navigate('/login');
+
+            toast.warn('Log in to manage your cart', {
+              position: 'top-right',
+              autoClose: 2500,
+              pauseOnHover: true,
+              theme: 'light',
+            });
+          }
         }}
       >
         <FiShoppingCart /> Add to cart
