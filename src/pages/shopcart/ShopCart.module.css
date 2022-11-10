@@ -83,3 +83,9 @@
 .pregunta {
   color: var(--accented-green);
 }
+
+@media screen and (max-width: 1200px) {
+  .cartContainer {
+    grid-template-columns: 1fr;
+  }
+}
