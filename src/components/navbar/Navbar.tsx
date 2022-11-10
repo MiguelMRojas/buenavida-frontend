@@ -18,7 +18,7 @@ export function Navbar() {
   // Fucntion from the provider
   const { setCriteria, filterProducts } = useContext(FilterContext);
   const [openCartDialog, setOpenCartDialog] = useState(false);
-  const { isLoggedIn, logout } = useContext(SessionContext);
+  const { isLoggedIn, logout, cart } = useContext(SessionContext);
 
   const floatingOptions = useRef<HTMLUListElement | null>(null);
   const navigate = useNavigate();
@@ -154,9 +154,10 @@ export function Navbar() {
                   setOpenCartDialog(!openCartDialog);
                 }}
               >
-                <div className={Styles.navigation__item}>
+                <div className={`${Styles.navigation__item} ${Styles.navigation__cart}`}>
                   <FiShoppingCart color={'#21a764'} />
                   <span>Cart</span>
+		  <span className={Styles.navigation__cartNotification}>{cart.length}</span>
                 </div>
               </li>
             </ul>

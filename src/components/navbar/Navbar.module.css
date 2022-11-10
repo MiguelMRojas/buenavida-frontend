@@ -112,6 +112,23 @@
   border-bottom: 1px solid var(--box-shadows);
 }
 
+.navigation__cart{
+  position: relative;
+}
+
+.navigation__cartNotification{
+  z-index: 2;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+
+  font-size: 0.8rem;
+  color: white;
+  background-color: var(--accented-red);
+  border-radius: 50%;
+  padding: 0.1em 0.4em;
+}
+
 /* Responsive */
 @media screen and (max-width: 768px) {
   .navbarBlock {
