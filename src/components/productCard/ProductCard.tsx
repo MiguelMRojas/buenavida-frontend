@@ -21,6 +21,8 @@ export function ProductCard(props: props) {
 
   const navigate = useNavigate();
 
+  console.log(props.product.discount);
+
   const HandleAddToCart = async () => {
     const CartItem: ICartItem = {
       id: props.product.id,
@@ -81,6 +83,11 @@ export function ProductCard(props: props) {
             }
           }}
         />
+      )}
+      {props.product.discount !== 0 ? (
+        <span className={Styles.product__discount}>-{props.product.discount}%</span>
+      ) : (
+        ''
       )}
       <img
         onClick={() => {
