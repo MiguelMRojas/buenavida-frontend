@@ -15,6 +15,23 @@
   right: 12px;
 }
 
+.product__discount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 12px;
+  left: 12px;
+
+  background-color: var(--accented-red);
+  aspect-ratio: 1;
+  padding: 0.4em;
+  border-radius: 50%;
+  color: white;
+  font-weight: bolder;
+}
+
 .product__image {
   width: 100%;
   object-fit: contain;

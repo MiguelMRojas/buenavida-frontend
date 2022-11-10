@@ -64,10 +64,10 @@ export function ShopCartPageRow(props: IProps) {
           }}
         />
       </div>
-      <div className={Styles.product__col}>
+      <div className={`${Styles.product__col} ${Styles.product__priceContainer}`}>
         <p className={Styles.product__price}>{props.product.price}€</p>
       </div>
-      <div className={Styles.product__col}>
+      <div className={`${Styles.product__col} ${Styles.product__trashContainer}`}>
         <FiTrash2
           color='red'
           size={'1.2em'}
